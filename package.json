@@ -1,4 +1,5 @@
 {
+  "homepage": "http://mm587517.github.io/website",
   "name": "website",
   "version": "0.1.0",
   "private": true,
@@ -44,6 +45,5 @@
   },
   "devDependencies": {
     "gh-pages": "^4.0.0"
-  },
-  "homepage": "http://{mm587517}.github.io/{website}"
+  }
 }
