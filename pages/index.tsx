@@ -1,9 +1,6 @@
 import { Box, Heading, Img, Text } from '@chakra-ui/react';
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import fs from 'fs/promises';
-import path from 'path';
 import Link from 'next/link';
-import { serialize } from 'next-mdx-remote/serialize';
 import { getAllPosts, Post } from '../utils/posts';
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;

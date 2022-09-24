@@ -7,3 +7,32 @@ banner: https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePan
 # hello there
 
 general kenobi
+
+```js
+const segments = [];
+
+while (width > inset) {
+  // get the current side based on the number of segments already created
+  const side = segments.length + 1;
+
+  // determine the number of insets and outsets for that side
+  const [a, b, c] = Array.from({ length: 3 }, (_, index) =>
+    Math.floor(Math.max(side - index, 0) / numSides)
+  );
+  const numInsets = a + c;
+  const numOutsets = 2 * b;
+
+  // calculate the side length by subtracting the appropriate number of insets
+  // and outsets from the original side length
+  const sideLength = width - inset * numInsets - outset * numOutsets;
+
+  // if the calculated side length is less than the length of the inset, break
+  // the loop
+  if (sideLength < inset) {
+    break;
+  }
+
+  // otherwise, add side length to the front of the array of segments
+  segments.unshift(sideLength);
+}
+```
