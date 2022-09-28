@@ -1,25 +1,25 @@
 import '../styles/globals.css';
+import "../styles/nprogress.css";
 import type { AppProps } from 'next/app';
-import { ChakraProvider, Heading } from '@chakra-ui/react';
-import { MDXProvider } from '@mdx-js/react';
-import React from 'react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
 
-const components = {
-  h1: ({ children }: React.PropsWithChildren) => (
-    <Heading as='h1' size='3xl'>
-      {children}
-    </Heading>
-  ),
-};
+const config = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+}
 
-function MyApp({ Component, pageProps }: AppProps) {
+export const theme = extendTheme({ config })
+
+function WebsiteApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    import("../components/PageProgressBar");
+  })
   return (
-    <ChakraProvider>
-      <MDXProvider components={components}>
-        <Component {...pageProps} />
-      </MDXProvider>
+    <ChakraProvider theme={theme}>
+      <Component {...pageProps} />
     </ChakraProvider>
   );
 }
 
-export default MyApp;
+export default WebsiteApp;

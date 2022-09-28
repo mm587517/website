@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs/promises';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import rehypeKatex from 'rehype-katex'
+import remarkMath from 'remark-math'
 
 export interface Post {
   content: MDXRemoteSerializeResult;
@@ -29,7 +31,10 @@ export async function getPostBySlug(slug: string): Promise<Post> {
     path.join(getPostFolder(), slug + '.mdx'),
     'utf-8'
   );
-  const mdxSource = await serialize(content, { parseFrontmatter: true });
+  const mdxSource = await serialize(content, { parseFrontmatter: true, mdxOptions: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex]
+  } });
   const meta = mdxSource.frontmatter!;
 
   return {
