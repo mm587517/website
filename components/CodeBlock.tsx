@@ -1,7 +1,7 @@
 import React from "react";
 import Highlight, { defaultProps, Language } from "prism-react-renderer";
 import lightTheme from "prism-react-renderer/themes/github";
-import darkTheme from "prism-react-renderer/themes/dracula";
+import darkTheme from "prism-react-renderer/themes/okaidia";
 import { useColorModeValue } from "@chakra-ui/react";
 
 export const CodeBlock: React.FC<{
