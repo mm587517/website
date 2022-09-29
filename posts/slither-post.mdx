@@ -4,10 +4,41 @@ title: Slither Summary
 banner: https://github.com/crytic/slither/blob/master/logo.png?raw=true
 ---
 
-# Slither Introduction
+# Slither
 
 <br />
+In this post I will be summarizing findings from other resources. The group can use
+this post as quick stop to quickly access the rest of findings.
 
-In this post I will be summarizing findings from other resources. The purpose is that research group can have a way to quicly access everthing.
+<br />
+### About
+
+Slither is the [Leading Static Analyzer](https://blog.trailofbits.com/2019/05/27/slither-the-leading-static-analyzer-for-smart-contracts/)
+for Smart Contracts. Here are some of the popular uses:
+
+- Automated vulnerability detection
+- Automated optimization detection
+- Code Understanding
+- Assited code review
+
+<br />
+#### How it works:
+
+1. Solidity compiler produces the Solidity Abstract Syntax Tree(AST). Slither then takes this AST as input.
+2. Information is generated from the AST, such as the control flow graph
+3. Slither translated the code into the SlithIR, an internal representation language, in order to analyze contracts easier.
+4. Pre-defined tests are ran to provide information
+
+<br />
+### Installation
+
+Slither can be installed using pip. Slither is Python based and
+requires Python $\geq 3.6$
+
+```sh
+pip3 install --user slither-analyzer
+```
+
+## Sources
 
 - [Building Secure Contracts](https://github.com/crytic/building-secure-contracts)

@@ -18,6 +18,9 @@ const Home: NextPage<PageProps> = ({ posts }) => {
   const imgBg = useColorModeValue("gray.50", "gray.500");
   return (
     <PageLayout>
+      <Heading margin={8} as="h3">
+        Notes and Resources
+      </Heading>
       <Flex flexDir="row" p="8" gap="4" flexWrap="wrap">
         {posts.map((post) => {
           return (
@@ -45,7 +48,7 @@ const Home: NextPage<PageProps> = ({ posts }) => {
                   <Heading as="h3" size="md">
                     {post.title}
                   </Heading>
-                  <Text>By: {post.author}</Text>
+                  <Text>{post.author}</Text>
                 </Box>
               </Box>
             </Link>
