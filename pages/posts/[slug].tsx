@@ -59,12 +59,11 @@ const components = {
     </Box>
   ),
   q: ({ children }: React.PropsWithChildren) => <Text>{children}</Text>,
-  a: ({ children }: React.PropsWithChildren) => (
-    <Link color="teal.300" href="#">
-      {children}
+  a: (props: any) => (
+    <Link color="teal.300" href={props.href}>
+      {props.children}
     </Link>
   ),
-
   p: ({ children }: React.PropsWithChildren) => (
     <Text fontSize="xl">{children}</Text>
   ),

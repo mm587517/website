@@ -8,7 +8,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Link from "next/link"
+import Link from "next/link";
 
 export const Header = () => {
   const { toggleColorMode } = useColorMode();
@@ -26,7 +26,7 @@ export const Header = () => {
     >
       <Link href="/">
         <Heading as="h3" cursor="pointer">
-          Marcelo&apos;s Blog
+          Marcelo&apos;s Notes
         </Heading>
       </Link>
       <Box ml="auto">
