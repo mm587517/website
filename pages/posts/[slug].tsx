@@ -60,7 +60,7 @@ const components = {
   ),
   q: ({ children }: React.PropsWithChildren) => <Text>{children}</Text>,
   a: (props: any) => (
-    <Link color="teal.300" href={props.href}>
+    <Link color="teal.300" isExternal href={props.href}>
       {props.children}
     </Link>
   ),
