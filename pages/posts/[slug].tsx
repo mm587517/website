@@ -16,6 +16,7 @@ import {
   UnorderedList,
   Text,
   Link,
+  Divider,
 } from "@chakra-ui/react";
 import { PageLayout } from "../../components/PageLayout";
 import { CodeBlock } from "../../components/CodeBlock";
@@ -31,8 +32,9 @@ const components = {
     </Heading>
   ),
   h2: ({ children }: React.PropsWithChildren) => (
-    <Heading as="h2" size="xl">
+    <Heading as="h2" size="xl" mb={6}>
       {children}
+      <Divider orientation="horizontal" />
     </Heading>
   ),
   h3: ({ children }: React.PropsWithChildren) => (
@@ -46,7 +48,7 @@ const components = {
     </Heading>
   ),
   ul: ({ children }: React.PropsWithChildren) => (
-    <UnorderedList>{children}</UnorderedList>
+    <UnorderedList fontSize={18}>{children}</UnorderedList>
   ),
   ol: ({ children }: React.PropsWithChildren) => (
     <OrderedList>{children}</OrderedList>
