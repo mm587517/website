@@ -8,14 +8,10 @@ import {
   useColorModeValue,
   useDisclosure,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 
-export const ObscureBlock: React.FC<{
-  children: React.ReactElement<{
-    className: string;
-    children: string;
-  }>;
-}> = (props) => {
+export const ObscureBlock: React.FC<any> = ({ children, question }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   const [show, setShow] = React.useState(false);
@@ -24,24 +20,22 @@ export const ObscureBlock: React.FC<{
 
   return (
     <>
-      <Button
-        colorScheme="teal"
-        variant="ghost"
-        onClick={handleToggle}
-        w="10em"
-      >
-        {show ? "Hide" : "Show"} Answer
-      </Button>
-
+      <Flex alignItems="center" gap="4">
+        <Text fontSize="xl" fontWeight="bold">
+          {question}
+        </Text>
+        <Button
+          colorScheme="teal"
+          variant="ghost"
+          onClick={handleToggle}
+          w="5em"
+        >
+          {show ? "Hide" : "Show"}
+        </Button>
+      </Flex>
       <Collapse startingHeight={0} in={show}>
-        <Text fontSize="lg">{props.children}</Text>
+        <Box ml={10}>{children}</Box>
       </Collapse>
-
-      {/* <Fade in={isOpen}>
-        <Box w="100%" p={4}>
-          {props.children}
-        </Box>
-      </Fade> */}
     </>
   );
 };
