@@ -6,6 +6,8 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
 
 ## Process Synchronization
 
+### Process
+
 <Box question="What is a process?">
   We can define a process as a program that is currently being executed.
 </Box>
@@ -32,9 +34,26 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
 </Box>
 
 <Box question="How do concurrent processes interact with each other?">
-  - shared variables: processes read and write to shared memory - ![Shared
-  variables](https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/figures/shared-memory.png)
-  - message passing: messages are sent through communication channels -
-  ![Message
-  passing](https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/figures/message-passing.png)
+  - shared variables: processes read and write to shared memory 
+    - ![Shared Svariables](https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/figures/shared-memory.png)
+  - message passing: messages are sent through communication channels 
+    -![Message passing](https://web.mit.edu/6.005/www/fa14/classes/17-concurrency/figures/message-passing.png)
+</Box>
+
+### Critical Sections
+
+<Box question="What is a critical section?">
+  Region of code that needs to be executed atomically since resources are shared
+</Box>
+
+<Box question="Solution to the critical section problem?">
+  - <Box question="Busy Waiting">
+      answer goes here
+    </Box>
+  - <Box question="Disabling Interrupts">
+      answer goes here
+    </Box>
+  - <Box question="Test-and-Set Intruction">
+      answer goes here
+    </Box>
 </Box>

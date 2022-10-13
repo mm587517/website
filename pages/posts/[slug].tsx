@@ -38,9 +38,14 @@ const components = {
     </Heading>
   ),
   h3: ({ children }: React.PropsWithChildren) => (
-    <Heading as="h3" size="lg">
-      {children}
-    </Heading>
+    <>
+      <Heading as="h3" size="lg" mt={3} mb={3}>
+        {children}
+      </Heading>
+      <Box width={"50%"}>
+        <Divider orientation="horizontal" />
+      </Box>
+    </>
   ),
   h4: ({ children }: React.PropsWithChildren) => (
     <Heading as="h4" size="sm">
