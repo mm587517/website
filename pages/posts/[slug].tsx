@@ -3,9 +3,9 @@ import {
   GetStaticProps,
   InferGetStaticPropsType,
   NextPage,
-} from "next/types";
-import { MDXRemote } from "next-mdx-remote";
-import { getAllPosts, getPostBySlug, Post } from "../../utils/posts";
+} from 'next/types';
+import { MDXRemote } from 'next-mdx-remote';
+import { getAllPosts, getPostBySlug, Post } from '../../utils/posts';
 import {
   Box,
   Heading,
@@ -17,38 +17,38 @@ import {
   Text,
   Link,
   Divider,
-} from "@chakra-ui/react";
-import { PageLayout } from "../../components/PageLayout";
-import { CodeBlock } from "../../components/CodeBlock";
-import { Children, cloneElement } from "react";
-import { ObscureBlock } from "../../components/ObscureBlock";
+} from '@chakra-ui/react';
+import { PageLayout } from '../../components/PageLayout';
+import { CodeBlock } from '../../components/CodeBlock';
+import { Children, cloneElement } from 'react';
+import { ObscureBlock } from '../../components/ObscureBlock';
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const components = {
   h1: ({ children }: React.PropsWithChildren) => (
-    <Heading as="h1" size="3xl" borderBottom={2} borderColor="blue">
+    <Heading as='h1' size='3xl' borderBottom={2} borderColor='blue'>
       {children}
     </Heading>
   ),
   h2: ({ children }: React.PropsWithChildren) => (
-    <Heading as="h2" size="xl" mb={6}>
+    <Heading as='h2' size='xl' mb={6}>
       {children}
-      <Divider orientation="horizontal" />
+      <Divider orientation='horizontal' />
     </Heading>
   ),
   h3: ({ children }: React.PropsWithChildren) => (
     <>
-      <Heading as="h3" size="lg" mt={3} mb={3}>
+      <Heading as='h3' size='lg' mt={3} mb={3}>
         {children}
       </Heading>
-      <Box width={"50%"}>
-        <Divider orientation="horizontal" />
+      <Box width={'50%'}>
+        <Divider orientation='horizontal' />
       </Box>
     </>
   ),
   h4: ({ children }: React.PropsWithChildren) => (
-    <Heading as="h4" size="sm">
+    <Heading as='h4' size='sm'>
       {children}
     </Heading>
   ),
@@ -62,18 +62,18 @@ const components = {
     <ListItem marginLeft={8}>{children}</ListItem>
   ),
   blockquote: ({ children }: React.PropsWithChildren) => (
-    <Box marginLeft={8} bg="gray">
+    <Box marginLeft={8} bg='gray'>
       {children}
     </Box>
   ),
   q: ({ children }: React.PropsWithChildren) => <Text>{children}</Text>,
   a: (props: any) => (
-    <Link color="teal.300" isExternal href={props.href}>
+    <Link color='teal.300' isExternal href={props.href}>
       {props.children}
     </Link>
   ),
   p: ({ children }: React.PropsWithChildren) => (
-    <Text fontSize="xl">{children}</Text>
+    <Text fontSize='md'>{children}</Text>
   ),
   pre: CodeBlock as any,
   Box: ObscureBlock as any,
@@ -82,7 +82,7 @@ const components = {
 const PostPage: NextPage<PageProps> = ({ post }) => {
   return (
     <PageLayout>
-      <Box m="auto" mt="16" w="100%" maxW="1080px" px="2">
+      <Box m='auto' mt='16' w='100%' maxW='1080px' px='2'>
         <MDXRemote {...post.content} components={components} />
       </Box>
     </PageLayout>

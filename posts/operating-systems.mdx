@@ -48,12 +48,79 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
 
 <Box question="Solution to the critical section problem?">
   - <Box question="Busy Waiting">
-      answer goes here
+      Technique in which a process/task waits and constantly checks for a condition to be satisfied before proceeding with its execution
+      ![Busy Waiting](https://www.baeldung.com/wp-content/uploads/sites/4/2021/08/Busywaiting.svg)
     </Box>
   - <Box question="Disabling Interrupts">
-      answer goes here
+       - The CPU will be unable to switch processes
+       - Processes can use shared variables without another process accessing it
     </Box>
   - <Box question="Test-and-Set Intruction">
-      answer goes here
+      - Shared variable is lock which is initialized to false
+      - Algorithm returns value that was sent and sets lock to true
+      ```c
+        boolean lock = false;
+
+        boolean TestAndSet (boolean &target){
+            boolean rv = target;
+            target = true;
+            return rv;
+        }
+
+        while(1){
+            while (TestAndSet(lock));
+            critical section
+            lock = false;
+            remainder section
+        }
+      ```
     </Box>
+</Box>
+
+### Semaphores
+
+<Box question="What is a semaphore?">
+  It is similar to an integer but differs in:
+    - value can only be increased or decreased. No reading occurs
+    - after decreasing, if the value is negative then the thread is blocked until the semaphore is positive
+    - once a thread is released and increases the value of the semaphore, one waiting thread gets accesss
+</Box>
+
+<Box question="Does the semaphore have atomic operations?">
+  Yes
+  - P(S): decrements the value
+  - V(S): increments the value 
+
+  ```c
+  sem = Semaphore(1)
+
+  // Process
+  sem.P()
+    // critical section
+  sem.V()
+  ```
+</Box>
+
+<Box question="Why use semaphores?">
+  - Solutions are clean
+  - Solutions are portable and efficient
+</Box>
+
+<Box question="difference between locks, mutex semaphore?">
+  - lock allows only one thread to enter the part that's locked and the lock is not shared with any other processes
+  - mutex is the same as a lock but it can be system wide
+  - semaphore does the same as a mutex but allows x number of threads to enter
+</Box>
+
+### Producer Consumer Problem
+
+
+
+<Box question="Sources">
+  - [Three State Process Model in Operating System](https://www.geeksforgeeks.org/three-state-process-model-in-operating-system/)
+  - [What Does “Busy Waiting” Mean in Operating Systems?](https://www.baeldung.com/cs/os-busy-waiting)
+  - [What is mutual exclusion by using interrupt disabling?](https://www.tutorialspoint.com/what-is-mutual-exclusion-by-using-interrupt-disabling#:~:text=Whenever%20the%20interrupts%20are%20disabled,without%20another%20process%20accessing%20it.)
+  - [Hardware Synchronization Algorithms : Unlock and Lock, Test and Set, Swap](https://www.geeksforgeeks.org/hardware-synchronization-algorithms-unlock-and-lock-test-and-set-swap/)
+  - [Little Book of Semaphores](https://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf)
+  - [What is the difference between lock, mutex and semaphore?](https://stackoverflow.com/questions/2332765/what-is-the-difference-between-lock-mutex-and-semaphore)
 </Box>
