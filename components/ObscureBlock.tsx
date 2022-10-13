@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Text,
   Flex,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export const ObscureBlock: React.FC<any> = ({ children, question }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -20,17 +20,17 @@ export const ObscureBlock: React.FC<any> = ({ children, question }) => {
 
   return (
     <>
-      <Flex alignItems="center" gap="4">
-        <Text fontSize="xl" fontWeight="bold">
+      <Flex alignItems='center' gap='4'>
+        <Text fontSize='md' fontWeight='bold'>
           {question}
         </Text>
         <Button
-          colorScheme="teal"
-          variant="ghost"
+          colorScheme='teal'
+          variant='ghost'
           onClick={handleToggle}
-          w="5em"
+          w='5em'
         >
-          {show ? "Hide" : "Show"}
+          {show ? 'Hide' : 'Show'}
         </Button>
       </Flex>
       <Collapse startingHeight={0} in={show}>
