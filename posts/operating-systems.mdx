@@ -4,6 +4,8 @@ title: Operating Systems
 banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-network-background-picture-id1130990010?k=20&m=1130990010&s=612x612&w=0&h=6DcPO6xYTQ64DpFlxqRDepkV9t58K8fjbHfZnUGCbOs=
 ---
 
+This post serves as a study guide. All the information has been obtained from available sources. You can find all links used at the end of the post.
+
 ## Process Synchronization
 
 ### Process
@@ -106,7 +108,7 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
   - Solutions are portable and efficient
 </Box>
 
-<Box question="difference between locks, mutex semaphore?">
+<Box question="Difference between locks, mutex semaphore?">
   - lock allows only one thread to enter the part that's locked and the lock is not shared with any other processes
   - mutex is the same as a lock but it can be system wide
   - semaphore does the same as a mutex but allows x number of threads to enter
@@ -114,9 +116,74 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
 
 ### Producer Consumer Problem
 
+<Box question="What is this Producer Consumer Problem?">
+  Producer threads create items and place them in a buffer, meanwhile consumer threads remove them from the buffer.
+  Producer threads should not be able to create items if the buffer is full, and consumers should not be able to remove items if buffer is empty. 
+</Box>
+
+
+<Box question="Producer Consumer Problem examples">
+  Code can be found on page 57 of Litte Book of semaphores
+
+  ```ts
+    buffer: number[] = [];
+    mutex: semaphore = 1;
+    items: semaphore = 0;
+    
+    Producer {
+      mutex.P() // lock the mutex
+        buffer.add(item)
+        items.V() // increase number of items for consumer threads
+      mutex.V() // release mutex
+    }
+
+    Consumer {
+      items.P() // decrease number of items
+      mutex.P() 
+        buffer.pop() // remove item from buffer
+      mutex.V()
+    }
+  ```
+  <Box question="What is wrong with this implementation? How to fix it?">
+    <Box question="Producer">
+        Assume $mutex = 1$ at the start of the producer.
+        1. mutex.P() inside Producer makes $mutex = 0$
+        2. items.V() inside Producer can trigger a consumer thread
+        3. items.P() inside Consumer makes $mutex = -1$
+        4. mutex.V() inside Producer makes $mutex = 0$
+        
+        This means we cannot enter the critical section inside the consumer. In order to proceed the semaphore value has to be greater than 0
+
+        The fix is to signal the consumer after we are out of the critical section.
+
+        ```ts
+          buffer: number[] = [];
+          mutex: semaphore = 1;
+          items: semaphore = 0;
+          
+          Producer {
+            mutex.P() // lock the mutex
+              buffer.add(item)
+            mutex.V() // release mutex
+            items.V() // increase number of items and signal consumer threads
+          }
+        ```
+    </Box>
+  
+    <Box question="Consumer">
+      Assume $items = 0$
+      1. The consumer thread grabs the mutex
+      2. items.P() in consumer gets stuck since the value is not greater than 0
+      3. Producer thread cannot increment the value of items, since its waiting for the consumer to release the mutex
+
+      We have reached a deadlock.
+    </Box>
+  </Box>
+</Box>
 
 
 <Box question="Sources">
+   All the information is my understaning from the following sources. 
   - [Three State Process Model in Operating System](https://www.geeksforgeeks.org/three-state-process-model-in-operating-system/)
   - [What Does “Busy Waiting” Mean in Operating Systems?](https://www.baeldung.com/cs/os-busy-waiting)
   - [What is mutual exclusion by using interrupt disabling?](https://www.tutorialspoint.com/what-is-mutual-exclusion-by-using-interrupt-disabling#:~:text=Whenever%20the%20interrupts%20are%20disabled,without%20another%20process%20accessing%20it.)
@@ -124,3 +191,5 @@ banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-netwo
   - [Little Book of Semaphores](https://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf)
   - [What is the difference between lock, mutex and semaphore?](https://stackoverflow.com/questions/2332765/what-is-the-difference-between-lock-mutex-and-semaphore)
 </Box>
+
+
