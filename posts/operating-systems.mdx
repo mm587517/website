@@ -122,7 +122,7 @@ This post serves as a study guide. All the information has been obtained from av
 </Box>
 
 
-<Box question="Producer Consumer Problem examples">
+<Box question="Infinite Buffer Example">
   Code can be found on page 57 of Litte Book of semaphores
 
   ```ts
@@ -171,15 +171,73 @@ This post serves as a study guide. All the information has been obtained from av
     </Box>
   
     <Box question="Consumer">
+      Various consumers can decrement value of items before popping. This leads to incorrect count. Consider this:
+
+      ```ts
+          Consumer {
+            mutex.P() 
+              items.P() // decrease number of items
+              buffer.pop() // remove item from buffer
+            mutex.V()
+          }
+
+      ```
       Assume $items = 0$
       1. The consumer thread grabs the mutex
-      2. items.P() in consumer gets stuck since the value is not greater than 0
-      3. Producer thread cannot increment the value of items, since its waiting for the consumer to release the mutex
+      2. items.P() in Consumer gets stuck since the value is not greater than 0
+      3. Producer thread cannot increment the value of items, since it's waiting on the consumer to release the mutex
 
       We have reached a deadlock.
     </Box>
+  </Box> 
+</Box>
+
+<Box question="Finite Buffer Example">
+
+  Recall that a producer cannot create new items if buffer is full. Also, the consumer cannot retrieve items if buffer is empty. 
+
+  ```ts
+  const bufferSize: number = N;
+  items: semaphore = 0;
+  ...
+  if (items >= bufferSize)
+    block()
+  ...
+  ```
+
+  <Box question="Would this work?">
+    No, we cannot read the value of a semaphore. Only increase and decrease.
+  </Box>
+
+  <Box question = "Solution">
+    We can add one more semaphore and set it equal to the size of the buffer.
+    
+    ```ts
+      buffer: number[bufferSize];
+      mutex: semaphore = 1;
+      items: semaphore = 0;
+      spaces: semaphore = bufferSize;
+
+      Producer {
+        spaces.P(); // decrement number of available spaces
+        mutex.P();
+          buffer.add()
+        mutex.V();
+        items.V() // signal the consumer
+      }
+
+      Consumer {
+        items.P(); // decrement number of items in buffer
+        mutex.P();
+          buffer.pop();
+        mutex.V();
+        spaces.V(); // increment spaces
+      }
+    ```
   </Box>
 </Box>
+
+
 
 
 <Box question="Sources">
