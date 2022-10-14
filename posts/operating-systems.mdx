@@ -123,7 +123,7 @@ This post serves as a study guide. All the information has been obtained from av
 
 
 <Box question="Producer Consumer Problem examples">
-  Code can be found in page 57 of Litte Book of semaphores
+  Code can be found on page 57 of Litte Book of semaphores
 
   ```ts
     buffer: number[] = [];
@@ -145,33 +145,41 @@ This post serves as a study guide. All the information has been obtained from av
     }
   ```
   <Box question="What is wrong with this implementation? How to fix it?">
-    Assume $mutex = 1$ at the start of the producer.
-    1. mutex.P() inside Producer makes $mutex = 0$
-    2. items.V() inside Producer can trigger a consumer thread
-    3. items.P() inside Consumer makes $mutex = -1$
-    4. mutex.V() inside Producer makes $mutex = 0$
-    
-    This means we cannot enter the critical section inside the consumer. In order to proceed the semaphore value has to be greater than 0
+    <Box question="Producer">
+        Assume $mutex = 1$ at the start of the producer.
+        1. mutex.P() inside Producer makes $mutex = 0$
+        2. items.V() inside Producer can trigger a consumer thread
+        3. items.P() inside Consumer makes $mutex = -1$
+        4. mutex.V() inside Producer makes $mutex = 0$
+        
+        This means we cannot enter the critical section inside the consumer. In order to proceed the semaphore value has to be greater than 0
 
-    The fix is to signal the consumer after we are out of the critical section.
+        The fix is to signal the consumer after we are out of the critical section.
 
-    ```ts
-      buffer: number[] = [];
-      mutex: semaphore = 1;
-      items: semaphore = 0;
-      
-      Producer {
-        mutex.P() // lock the mutex
-          buffer.add(item)
-        mutex.V() // release mutex
-        items.V() // increase number of items and signal consumer threads
-      }
-    ```
+        ```ts
+          buffer: number[] = [];
+          mutex: semaphore = 1;
+          items: semaphore = 0;
+          
+          Producer {
+            mutex.P() // lock the mutex
+              buffer.add(item)
+            mutex.V() // release mutex
+            items.V() // increase number of items and signal consumer threads
+          }
+        ```
+    </Box>
+  
+    <Box question="Consumer">
+      Assume $items = 0$
+      1. The consumer thread grabs the mutex
+      2. items.P() in consumer gets stuck since the value is not greater than 0
+      3. Producer thread cannot increment the value of items, since its waiting for the consumer to release the mutex
+
+      We have reached a deadlock.
+    </Box>
   </Box>
-
-
 </Box>
-
 
 
 <Box question="Sources">
