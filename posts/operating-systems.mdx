@@ -121,7 +121,6 @@ This post serves as a study guide. All the information has been obtained from av
   Producer threads should not be able to create items if the buffer is full, and consumers should not be able to remove items if buffer is empty. 
 </Box>
 
-
 <Box question="Infinite Buffer Example">
   Code can be found on page 57 of Litte Book of semaphores
 
@@ -238,8 +237,50 @@ This post serves as a study guide. All the information has been obtained from av
 </Box>
 
 
+### Readers-writers problem
 
+Little Book of Semaphores 4.2
 
+<Box question="What is the readers-writers problem?">
+  Occurs when a resource is read and written by concurrent threads. Ideally, you do not want to read the resource while it is being written.
+</Box>
+
+<Box question="What are the constraints?">
+  - Multiple readers can be in the critical section simultaneously
+  - Writers have exclusive access to the critical section
+</Box>
+
+<Box question="Semaphore Implementation">
+
+  ```ts
+    isRoomEmpty: semaphore = 1;
+    mutex: semaphore = 1;
+    readers: number = 0;
+
+    Reader {
+      mutex.P();
+        readers++;
+        if(readers == 1) isRoomEmpty.P(); // first reader locks the room
+      mutex.V();
+
+      <READ/>
+
+      mutex.P();
+        readers--;
+        if(readers == 0) isRoomEmpty.V(); // last readers frees the room
+      mutex.V();
+    }
+
+    Writer {
+      isRoomEmpty.P(); // writer waits for room to be empty
+        <WRITE/>
+      isRoomEmpty.V();
+    }
+  ```
+
+</Box>
+
+### References
 <Box question="Sources">
    All the information is my understaning from the following sources. 
   - [Three State Process Model in Operating System](https://www.geeksforgeeks.org/three-state-process-model-in-operating-system/)
