@@ -21,9 +21,7 @@ export const ObscureBlock: React.FC<any> = ({ children, question }) => {
   return (
     <>
       <Flex alignItems='center' gap='4'>
-        <Text fontSize='md' fontWeight='bold'>
-          {question}
-        </Text>
+        <Text fontSize='md'>{question}</Text>
         <Button
           colorScheme='teal'
           variant='ghost'

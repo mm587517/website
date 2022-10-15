@@ -48,9 +48,14 @@ const components = {
     </>
   ),
   h4: ({ children }: React.PropsWithChildren) => (
-    <Heading as='h4' size='sm'>
-      {children}
-    </Heading>
+    <>
+      <Heading as='h4' size='md' mt={2} mb={2}>
+        {children}
+      </Heading>
+      <Box width={'40%'}>
+        <Divider orientation='horizontal' />
+      </Box>
+    </>
   ),
   ul: ({ children }: React.PropsWithChildren) => (
     <UnorderedList fontSize={18}>{children}</UnorderedList>
