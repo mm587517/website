@@ -114,7 +114,7 @@ This post serves as a study guide. All the information has been obtained from av
   - semaphore does the same as a mutex but allows x number of threads to enter
 </Box>
 
-### Producer Consumer Problem
+#### Producer Consumer Problem
 
 <Box question="What is this Producer Consumer Problem?">
   Producer threads create items and place them in a buffer, meanwhile consumer threads remove them from the buffer.
@@ -237,7 +237,7 @@ This post serves as a study guide. All the information has been obtained from av
 </Box>
 
 
-### Readers-writers problem
+#### Readers-Writers Problem
 
 Little Book of Semaphores 4.2
 
@@ -362,6 +362,79 @@ Little Book of Semaphores 4.2
         }
       ```
 </Box>
+
+#### Dining Philosophers Problem
+
+Little Book of Semaphores 4.4
+
+<Box question="What is the Dining Philosophers Problem?">
+
+  ![Dining Philosophers Problem](https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/_images/CSF-Images.8.3.png)
+
+  A philosopher needs _two_ forks to eat. Looking at the diagram, we can tell some of them will have to wait for an adjacent philosopher to finish eating.
+
+  Each philosopher, representing a thread, runs the following loop:
+
+  ```ts
+    while (true) {
+      think();
+      getForks();
+      eat();
+      putForks();
+    }
+  ```
+
+  Each philosopher knows their number ranging from 0 to $n$. Each fork is also numbered from 0 to $n$. A philosopher $i$ grabs the left fork $i$ and the right fork $i+1$
+
+  The problem lies in the function $getForks()$ and $putForks()$. We need to implement them such that:
+  - Only one philosopher can hold a fork at a time
+  - No deadlocks
+  - No starvation
+  - Multiple philosophers eating
+</Box>
+
+
+<Box question="Solutions">
+  ```ts
+    const getForks = (i: number) => {
+      forks[getLeft(i)].P();
+      forks[getRight(i)].P();
+    }
+
+    const putForks = (i: number) => {
+      forks[getLeft(i)].V();
+      forks[getRight(i)].V();
+    }
+  ```
+  <Box question="Does this solution work?">
+    No. Imagine each philosopher picks up the fork to the right. There are no more forks available, and each philosphre only has one fork. No one can eat, thus leading to a deadlock.
+  </Box>
+
+  <Box question="Can it be improved?">
+    We can ensure no deadlock as long as we leave one fork available. Say there are 5 forks, 5 philosophers, but we only allow 4 to eat. In the scenario where everyone reaches for a fork on the right, there will be one spare fork since one philosopher is not eating.
+    We can implement this with a semaphore initialized to $n-1$, $n$ being the number of philosophers.
+
+    ```ts
+      maxPhilosophers: semaphore = n - 1;
+
+      const getForks = (i: number) => {
+        maxPhilosophers.P(); // only the first n - 1 philosophers can proceed
+
+        forks[getLeft(i)].P();
+        forks[getRight(i)].P();
+      }
+
+      const putForks = (i: number) => {
+        forks[getLeft(i)].V();
+        forks[getRight(i)].V();
+
+        maxPhilosophers.V(); // notify the waiting philopher they can eat
+      }
+    ```
+  </Box>
+</Box>
+
+### Monitors
 
 ### References
 <Box question="Sources">
