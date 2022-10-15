@@ -282,7 +282,39 @@ Little Book of Semaphores 4.2
 <Box question="Starvation">
 In the previous implementation, writers can starve. This means that readers can keep coming in and writers _might_ wait forever. 
 
-  <Box question="Make it so that when a wirter arrives, exisiting readers finish."></Box>
+  <Box question="Make it so that when a writer arrives, exisiting readers finish.">
+      ```ts
+        isRoomEmpty: semaphore = 1;
+        mutex: semaphore = 1;
+        turnstile: semaphore = 1;
+        readers: number = 0;
+
+        Reader {
+          turnstile.P(); // decrease number
+          turnstile.V(); // the final increase to reach 1 should be given by the writer
+
+          mutex.P();
+            readers++;
+            if(readers == 1) isRoomEmpty.P(); // first reader locks the room
+          mutex.V();
+
+          <READ/>
+
+          mutex.P();
+            readers--;
+            if(readers == 0) isRoomEmpty.V(); // last readers frees the room
+          mutex.V();
+        }
+
+        Writer {
+          turnstile.P(); // let readers know a writer came in
+          isRoomEmpty.P(); // writer waits for room to be empty
+            <WRITE/>
+          turnstile.V(); // notify readers
+          isRoomEmpty.V(); // room is ready
+        }
+      ```
+  </Box>
   </Box>
 
 ### References
