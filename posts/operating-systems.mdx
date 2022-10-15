@@ -280,7 +280,7 @@ Little Book of Semaphores 4.2
 </Box>
 
 <Box question="Starvation">
-In the previous implementation, writers can starve. This means that readers can keep coming in and writers _might_ wait forever. 
+  In the previous implementation, writers can starve. This means that readers can keep coming in and writers _might_ wait forever. 
 
   <Box question="Make it so that when a writer arrives, exisiting readers finish.">
       ```ts
@@ -291,7 +291,7 @@ In the previous implementation, writers can starve. This means that readers can 
 
         Reader {
           turnstile.P(); // decrease number
-          turnstile.V(); // the final increase to reach 1 should be given by the writer
+          turnstile.V(); // the final increase to reach 1 is given by the writer
 
           mutex.P();
             readers++;
@@ -315,7 +315,53 @@ In the previous implementation, writers can starve. This means that readers can 
         }
       ```
   </Box>
-  </Box>
+</Box>
+
+<Box question="Writer priority - Semaphore">
+  Little Book of Semaphores page 79
+      ```ts
+        readerMutex: semaphore = 1;
+        readers: number = 0;
+
+        writerMutex: semaphore = 1;
+        writers: number = 0;
+
+        allowReaders: semaphore = 1;
+        allowWriters: semaphore = 1;
+
+        Reader {
+          allowReaders.P();
+            readerMutex.P();
+              readers++;
+              if(readers == 1) allowWriters.P(); // notify writers that readers are there
+            readerMutex.V();
+          allowReaders.V();
+
+          <READ/>
+
+          readerMutex.P();
+            readers--;
+            if(readers == 0) allowWriters.V(); //signal writers the are no more readers
+          readerMutex.V();
+        }
+
+        Writer {
+          writerMutex.P();
+            writers++;
+            if (writers == 1) allowReaders.P(); // notify readers to wait
+          writerMutex.V();
+
+          allowWriters.P();
+            <WRITE/>
+          allowWriters.V();
+
+          writerMutex.P();
+            writers--;
+            if(writers == 0) allowReaders.V();
+          writerMutex.V();
+        }
+      ```
+</Box>
 
 ### References
 <Box question="Sources">
