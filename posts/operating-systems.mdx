@@ -277,8 +277,13 @@ Little Book of Semaphores 4.2
       isRoomEmpty.V();
     }
   ```
-
 </Box>
+
+<Box question="Starvation">
+In the previous implementation, writers can starve. This means that readers can keep coming in and writers _might_ wait forever. 
+
+  <Box question="Make it so that when a wirter arrives, exisiting readers finish."></Box>
+  </Box>
 
 ### References
 <Box question="Sources">
