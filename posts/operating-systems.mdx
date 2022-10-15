@@ -121,8 +121,7 @@ This post serves as a study guide. All the information has been obtained from av
   Producer threads should not be able to create items if the buffer is full, and consumers should not be able to remove items if buffer is empty. 
 </Box>
 
-
-<Box question="Producer Consumer Problem examples">
+<Box question="Infinite Buffer Example">
   Code can be found on page 57 of Litte Book of semaphores
 
   ```ts
@@ -171,17 +170,200 @@ This post serves as a study guide. All the information has been obtained from av
     </Box>
   
     <Box question="Consumer">
+      Various consumers can decrement value of items before popping. This leads to incorrect count. Consider this:
+
+      ```ts
+          Consumer {
+            mutex.P() 
+              items.P() // decrease number of items
+              buffer.pop() // remove item from buffer
+            mutex.V()
+          }
+
+      ```
       Assume $items = 0$
       1. The consumer thread grabs the mutex
-      2. items.P() in consumer gets stuck since the value is not greater than 0
-      3. Producer thread cannot increment the value of items, since its waiting for the consumer to release the mutex
+      2. items.P() in Consumer gets stuck since the value is not greater than 0
+      3. Producer thread cannot increment the value of items, since it's waiting on the consumer to release the mutex
 
       We have reached a deadlock.
     </Box>
+  </Box> 
+</Box>
+
+<Box question="Finite Buffer Example">
+
+  Recall that a producer cannot create new items if buffer is full. Also, the consumer cannot retrieve items if buffer is empty. 
+
+  ```ts
+  const bufferSize: number = N;
+  items: semaphore = 0;
+  ...
+  if (items >= bufferSize)
+    block()
+  ...
+  ```
+
+  <Box question="Would this work?">
+    No, we cannot read the value of a semaphore. Only increase and decrease.
+  </Box>
+
+  <Box question = "Solution">
+    We can add one more semaphore and set it equal to the size of the buffer.
+    
+    ```ts
+      buffer: number[bufferSize];
+      mutex: semaphore = 1;
+      items: semaphore = 0;
+      spaces: semaphore = bufferSize;
+
+      Producer {
+        spaces.P(); // decrement number of available spaces
+        mutex.P();
+          buffer.add()
+        mutex.V();
+        items.V() // signal the consumer
+      }
+
+      Consumer {
+        items.P(); // decrement number of items in buffer
+        mutex.P();
+          buffer.pop();
+        mutex.V();
+        spaces.V(); // increment spaces
+      }
+    ```
   </Box>
 </Box>
 
 
+### Readers-writers problem
+
+Little Book of Semaphores 4.2
+
+<Box question="What is the readers-writers problem?">
+  Occurs when a resource is read and written by concurrent threads. Ideally, you do not want to read the resource while it is being written.
+</Box>
+
+<Box question="What are the constraints?">
+  - Multiple readers can be in the critical section simultaneously
+  - Writers have exclusive access to the critical section
+</Box>
+
+<Box question="Semaphore Implementation">
+
+  ```ts
+    isRoomEmpty: semaphore = 1;
+    mutex: semaphore = 1;
+    readers: number = 0;
+
+    Reader {
+      mutex.P();
+        readers++;
+        if(readers == 1) isRoomEmpty.P(); // first reader locks the room
+      mutex.V();
+
+      <READ/>
+
+      mutex.P();
+        readers--;
+        if(readers == 0) isRoomEmpty.V(); // last readers frees the room
+      mutex.V();
+    }
+
+    Writer {
+      isRoomEmpty.P(); // writer waits for room to be empty
+        <WRITE/>
+      isRoomEmpty.V();
+    }
+  ```
+</Box>
+
+<Box question="Starvation">
+  In the previous implementation, writers can starve. This means that readers can keep coming in and writers _might_ wait forever. 
+
+  <Box question="Make it so that when a writer arrives, exisiting readers finish.">
+      ```ts
+        isRoomEmpty: semaphore = 1;
+        mutex: semaphore = 1;
+        turnstile: semaphore = 1;
+        readers: number = 0;
+
+        Reader {
+          turnstile.P(); // decrease number
+          turnstile.V(); // the final increase to reach 1 is given by the writer
+
+          mutex.P();
+            readers++;
+            if(readers == 1) isRoomEmpty.P(); // first reader locks the room
+          mutex.V();
+
+          <READ/>
+
+          mutex.P();
+            readers--;
+            if(readers == 0) isRoomEmpty.V(); // last readers frees the room
+          mutex.V();
+        }
+
+        Writer {
+          turnstile.P(); // let readers know a writer came in
+          isRoomEmpty.P(); // writer waits for room to be empty
+            <WRITE/>
+          turnstile.V(); // notify readers
+          isRoomEmpty.V(); // room is ready
+        }
+      ```
+  </Box>
+</Box>
+
+<Box question="Writer priority - Semaphore">
+  Little Book of Semaphores page 79
+      ```ts
+        readerMutex: semaphore = 1;
+        readers: number = 0;
+
+        writerMutex: semaphore = 1;
+        writers: number = 0;
+
+        allowReaders: semaphore = 1;
+        allowWriters: semaphore = 1;
+
+        Reader {
+          allowReaders.P();
+            readerMutex.P();
+              readers++;
+              if(readers == 1) allowWriters.P(); // notify writers that readers are there
+            readerMutex.V();
+          allowReaders.V();
+
+          <READ/>
+
+          readerMutex.P();
+            readers--;
+            if(readers == 0) allowWriters.V(); //signal writers the are no more readers
+          readerMutex.V();
+        }
+
+        Writer {
+          writerMutex.P();
+            writers++;
+            if (writers == 1) allowReaders.P(); // notify readers to wait
+          writerMutex.V();
+
+          allowWriters.P();
+            <WRITE/>
+          allowWriters.V();
+
+          writerMutex.P();
+            writers--;
+            if(writers == 0) allowReaders.V();
+          writerMutex.V();
+        }
+      ```
+</Box>
+
+### References
 <Box question="Sources">
    All the information is my understaning from the following sources. 
   - [Three State Process Model in Operating System](https://www.geeksforgeeks.org/three-state-process-model-in-operating-system/)
