@@ -22,6 +22,7 @@ import { PageLayout } from '../../components/PageLayout';
 import { CodeBlock } from '../../components/CodeBlock';
 import { Children, cloneElement } from 'react';
 import { ObscureBlock } from '../../components/ObscureBlock';
+import { ObscureSection } from '../../components/ObscureSection';
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -82,6 +83,7 @@ const components = {
   ),
   pre: CodeBlock as any,
   Box: ObscureBlock as any,
+  Section: ObscureSection as any,
 };
 
 const PostPage: NextPage<PageProps> = ({ post }) => {
