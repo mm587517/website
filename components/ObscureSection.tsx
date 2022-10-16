@@ -9,9 +9,12 @@ import {
   useDisclosure,
   Text,
   Flex,
+  IconButton,
+  Divider,
 } from '@chakra-ui/react';
+import { ArrowDownIcon, ArrowUpIcon, SearchIcon } from '@chakra-ui/icons';
 
-export const ObscureBlock: React.FC<any> = ({ children, question }) => {
+export const ObscureSection: React.FC<any> = ({ children, section }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   const [show, setShow] = React.useState(false);
@@ -21,15 +24,32 @@ export const ObscureBlock: React.FC<any> = ({ children, question }) => {
   return (
     <>
       <Flex alignItems='center' gap='4'>
-        <Text fontSize='md'>{question}</Text>
-        <Button
-          colorScheme='teal'
-          variant='ghost'
-          onClick={handleToggle}
-          w='5em'
-        >
-          {show ? 'Hide' : 'Show'}
-        </Button>
+        <Heading as='h2' size='xl' mb={6}>
+          {section}
+          <Divider orientation='horizontal' />
+        </Heading>
+
+        {show ? (
+          <IconButton
+            mb={6}
+            colorScheme='teal'
+            variant='ghost'
+            onClick={handleToggle}
+            w='1em'
+            aria-label={`Expand ${section}`}
+            icon={<ArrowUpIcon />}
+          />
+        ) : (
+          <IconButton
+            mb={6}
+            colorScheme='teal'
+            variant='ghost'
+            onClick={handleToggle}
+            w='1em'
+            aria-label={`Expand ${section}`}
+            icon={<ArrowDownIcon />}
+          />
+        )}
       </Flex>
       <Collapse startingHeight={0} in={show}>
         <Box ml={10}>{children}</Box>
