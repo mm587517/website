@@ -4,7 +4,7 @@ title: Operating Systems
 banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-network-background-picture-id1130990010?k=20&m=1130990010&s=612x612&w=0&h=6DcPO6xYTQ64DpFlxqRDepkV9t58K8fjbHfZnUGCbOs=
 ---
 
-This post serves as a study guide. All the information has been obtained from public sources. You can find all links used at the end of each section.
+This post serves as a study guide. All the links for the information can be found at the end of each section. I do not claim it as my own. This page is an organization of topics. 
 
 <Section section="Process Synchronization">
   
@@ -533,7 +533,6 @@ This post serves as a study guide. All the information has been obtained from pu
 
   ### References
   <Box question="Sources">
-    All the information is my understaning from the following sources. 
     - [Three State Process Model in Operating System](https://www.geeksforgeeks.org/three-state-process-model-in-operating-system/)
     - [What Does “Busy Waiting” Mean in Operating Systems?](https://www.baeldung.com/cs/os-busy-waiting)
     - [What is mutual exclusion by using interrupt disabling?](https://www.tutorialspoint.com/what-is-mutual-exclusion-by-using-interrupt-disabling#:~:text=Whenever%20the%20interrupts%20are%20disabled,without%20another%20process%20accessing%20it.)
@@ -543,9 +542,102 @@ This post serves as a study guide. All the information has been obtained from pu
     - [Monitors in Process Synchronization](https://www.geeksforgeeks.org/monitors-in-process-synchronization/)
     - [Monitor vs Semaphore](https://www.geeksforgeeks.org/monitor-vs-semaphore/)
   </Box>
-
-
-
 </Section>
 
+## Process Communication
+Distributed Systems 3rd edition (2017) Chapter 4
 
+### Message Passing Model
+
+<Box question="Why do Distributed Systems use message passing?">
+  Distributed Systems send and receive low level messages due to the absence of shared memory.
+</Box>
+
+<Box question="In a very high level, how does it work?">
+  Say process $P$ wants to communicate with with process $Q$.
+  1. $P$ builds message in local address space
+  2. Sytem call sends message to $Q$
+  3. Both $P$ and $Q$ need to agree on what was sent
+</Box>
+
+### OSI Model
+
+<Box question="What is the OSI Model?">
+  The Open Systems Interconnection Model identifies the various levels of communication, their purpose, as well as naming them.
+  It is designed to allow open systems to communicate by using _communication protocols_.
+</Box>
+
+<Box question="Why use layers in the OSI Model? How many are there?">
+  Each layer offers one or more specific communication services to the layer above it. In this way, the problem of getting a message
+  from A to B can be divided into manageable pieces, each of which can be solved independently of the others.
+
+  7 Layers:
+  - Physical Layer
+  - Data Link Layer
+  - Network Layer
+  - Transport Layer
+  - Session Layer
+  - Presentation Layer
+  - Application Layer
+</Box>
+
+<Box question="Common Protocols">
+  - File Transport Protocol (FTP)
+  - HyperText Transport Protocol (HTTP)
+  - Secure Shell (SSH)
+</Box>
+
+### Middleware Protocols
+
+<Box question="What is middleware">
+  Application that lives in the OSI application layer, but contains many general-purpose protocols that warrant their own layers.
+</Box>
+
+<Box question="What effect did it have on the OSI model?">
+  It replaces the session and presentation layer
+</Box>
+
+### Berkeley Sockets
+
+<Box question="What is a socket?">
+  One endpoint of a two way communication link between two programs running on the network.
+</Box>
+
+<Box question="What are the socket operations for TCP?">
+  - socket: creates new communication endpoint
+  - bind: attaches local address to socket
+  - listen: readiness to accept client connection requests
+  - accept: block caller until connection request arrives
+  - connect: actively attempts to establish connection
+  - send: send data over connection
+  - receive: receive data over connection
+  - close: release connection
+</Box>
+
+<Box question="Describe the communication pattern">
+  Server side executes the first 4 operations in order:
+
+  $ socket \rightarrow bind \rightarrow listen \rightarrow accept $
+
+  1. When _socket_ is called, caller creates new communication endpoint. The OS reserves resources for the specified resource.
+  2. _bind_ associates local address with newly created socket. This tells the OS to receive messages on specified address and ports.
+  3. _listen_ us called only in the case of connection-oriented communication. Allows OS to reserve buffers for specified amount of pending connection requests that are to be accepted.
+  4. _accept_ blocks callers until receiving connection request. When request arrives, OS creates copy of the socket and returns it to the caller.
+
+  Now we look at the client side. 
+
+  5 . _connect_ requires caller to specify where a connection request is to be sent. Client is blocked until connection is established. 
+  
+  - Both client and server perform _send_ and _receive_ operations.
+
+  8 . _close_ is a symmetric operation. 
+
+  ![Socket Pattern](https://media.geeksforgeeks.org/wp-content/uploads/20200509144631/223-1.png)
+</Box>
+
+### References
+
+<Box question="Sources">
+  - [Distributed Systems 3rd edition (2017)](https://www.distributed-systems.net/index.php/books/ds3/)
+  - [Socket in Computer Network](https://www.geeksforgeeks.org/socket-in-computer-network/)
+</Box>
