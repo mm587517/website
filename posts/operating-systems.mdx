@@ -250,7 +250,7 @@ Little Book of Semaphores 4.2
   - Writers have exclusive access to the critical section
 </Box>
 
-<Box question="Semaphore Implementation">
+<Box question="Implementation">
 
   ```ts
     isRoomEmpty: semaphore = 1;
@@ -317,7 +317,7 @@ Little Book of Semaphores 4.2
   </Box>
 </Box>
 
-<Box question="Writer priority - Semaphore">
+<Box question="Writer priority">
   Little Book of Semaphores page 79
       ```ts
         readerMutex: semaphore = 1;
@@ -436,6 +436,101 @@ Little Book of Semaphores 4.4
 
 ### Monitors
 
+<Box question="What is a monitor?">
+  Collection of variables and procedures. Kinda like a class. 
+
+  ```ts
+    interface Condition {
+      wait, // Process performing will be suspended and placed in the local queue
+      signal, // One of the queued processes is popped
+      queue // local queue of pending processes 
+    }
+
+    Monitor Test{
+      variables: any;
+      myConditions: Condition;
+
+      procedure pn {...}
+    }
+  ```
+</Box>
+
+<Box question="Properties of monitors">
+  - Outside processes cannot access the monitor's variables, but can call the procedures
+  - Only one process at a time can execute code inside the monitor
+</Box>
+
+#### Producer Consumer Problem
+
+<Box question="Implementation">
+
+  ```ts
+  Monitor ProducerConsumer {
+    items: number = 0; // # of items inside buffer
+    full: condition;
+    empty: condition;
+
+    Procedure Produce {
+      if (items == N) full.wait(); // can't produce since buffer is full
+      <PRODUCE/> // should have released the wait
+      items++;
+      empty.signal(); // notify buffer is NOT empty & consumer can proceed
+    }
+
+    Procedure Consume {
+      if (items == 0) empty.wait(); // can't consume since buffer is empty
+      <CONSUME/>
+      items--;
+      full.signal(); // notify producer buffer is no longer full
+    }
+  }
+  ```
+</Box>
+
+#### Readers-Writers Problem
+<Box question="Readers Priority">
+
+  ```ts
+  Monitor ReaderWriter {
+    readers: number = 0;
+    busy: boolean = false;
+    reader: condition;
+    writer: condition;
+
+    Procedure beginRead {
+      if (busy) reader.wait(); // wait until writer is done
+      readers++;
+      reader.signal(); // signal readers
+    }
+
+    Procedure endRead {
+      reader--;
+      if(readers == 0) writers.signal(); // notify writers there are no more readers
+    }
+
+    Procedure beginWrite {
+      if(readers > 0 || busy) writer.wait(); // either reading or writing in process
+      busy = true; // preparation
+      writer.signal(); // notify writer it can proceed
+    }
+
+    Procedure endWrite {
+      busy = false; // writer has finished
+      if(reader.queue) reader.signal(); // notify reader it can proceed
+      else writer.signal(); // if no readers, go to writer
+    }
+  }
+  ```
+</Box>
+
+Geeks for Geeks:
+<Box question="Semaphores vs Monitors">
+  - Mutual exclusion in monitors is automatic while in semaphores, mutual exclusion needs to be implemented explicitly.
+  - Shared variables are global to all processes in the monitor while shared variables are hidden in semaphores
+  - Semaphores permit more than one thread to access the critical section, unlike monitors.
+  - In semaphores there is no spinning, hence no waste of resources due to no busy waiting.
+</Box>
+
 ### References
 <Box question="Sources">
    All the information is my understaning from the following sources. 
@@ -445,6 +540,8 @@ Little Book of Semaphores 4.4
   - [Hardware Synchronization Algorithms : Unlock and Lock, Test and Set, Swap](https://www.geeksforgeeks.org/hardware-synchronization-algorithms-unlock-and-lock-test-and-set-swap/)
   - [Little Book of Semaphores](https://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf)
   - [What is the difference between lock, mutex and semaphore?](https://stackoverflow.com/questions/2332765/what-is-the-difference-between-lock-mutex-and-semaphore)
+  - [Monitors in Process Synchronization](https://www.geeksforgeeks.org/monitors-in-process-synchronization/)
+  - [Monitor vs Semaphore](https://www.geeksforgeeks.org/monitor-vs-semaphore/)
 </Box>
 
 
