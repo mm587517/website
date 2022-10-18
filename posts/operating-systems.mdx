@@ -623,7 +623,7 @@ This post serves as a study guide. All the links for the information can be foun
     1. When _socket_ is called, caller creates new communication endpoint. The OS reserves resources for the specified resource.
     2. _bind_ associates local address with newly created socket. This tells the OS to receive messages on specified address and ports.
     3. _listen_ us called only in the case of connection-oriented communication. Allows OS to reserve buffers for specified amount of pending connection requests that are to be accepted.
-    4. _accept_ blocks callers until receiving connection request. When request arrives, OS creates copy of the socket and returns it to the caller.
+    4. _accept_ blocks callers until receiving connection request. When request arrives, local OS creates copy of the socket and returns it to the caller.
 
     Now we look at the client side. 
 
@@ -779,3 +779,132 @@ This post serves as a study guide. All the links for the information can be foun
     - [Stub (distributed computing)](https://en.wikipedia.org/wiki/Stub_(distributed_computing))
   </Box>
 </Section>
+
+## Clocks
+
+This is where the fun begins
+
+### Cristian's Clock
+Distributed Systems 3rd edition (2017) 6.1
+
+<Box question="What is the idea?">
+  Client's contact a server to retrieve the time. 
+</Box>
+
+<Box question="Issues with this?">
+  Message delays will have outdated the reported time. 
+</Box>
+
+<Box question="Example">
+  ![Cristian's Algorithm](https://www.researchgate.net/publication/301451426/figure/fig2/AS:748572651814912@1555485036134/Christian-algorithm.jpg)
+
+  1. $j$ sends a timestamped request $T_1 $to $i$
+  2. $i$ records the arrival request $T_2$ time (from local clock) 
+  3. $i$ returns response $T_3$ with a timestamp, as well as the timestamp from $T_2$
+  4. $j$ records the arrival respone $T_4$ time
+  5. $j$ calculates offset: $\theta = \frac{(T_2 - T_1) - (T_4 - T_3)}{2}$
+</Box>
+
+<Box question="If clocks are to be modified, would it be gradually or abruptly?">
+  Graudally. Changing the time in one go can lead to serious problems such as:
+  an object file compiled just after the clock change having a tim 
+</Box>
+
+### The Berkeley algorithm
+
+<Box question="How does it work?">
+  Server constantly asks nodes what time it is. It then calculates the average time and notifies node whether they should speed up or slow down their local clocks.
+  ![Berkeley Algorithm](https://www.abcassignmenthelp.com/webroot/uploadefiles/Samples/90Berkeley-Algorithm.png)
+</Box>
+
+<Box question="When to use this algorithm?">
+  Typically to be used in an internal synchronization algorithm. 
+</Box>
+
+
+### Logical clocks
+Distributed Systems 3rd edition (2017) 6.2
+
+<Box question="Is it necessary to have an acurate account of the real time?">
+  No, we just need nodes to agree on _a_ time. 
+</Box>
+
+<Box question="What two things did Lamport point out?">
+  1. If two processes do not interact, it is not necessary that their clocks are synchronized.
+  2. What matters is that processes agree on the order in which events occur, rather than what time it is. 
+</Box>
+
+
+### Lamport's Logical Clocks
+
+#### Happens-before
+
+<Box question="What does  a || b mean?">
+  Also displayed as $ a \rightarrow b $
+  It is read as event $a$ happens before $b$.
+
+  It means all events agree that a happens firtst, then afterwards b.
+
+  1. If $a$ and $b$ are in the same process, then $a \rightarrow b$ is true
+  2. If $a$ is an event that sends a message,and  $b$ is the event of receiving a message then $ a \rightarrow b $ is true. (You can't receive a message without sending it!)
+</Box>
+
+<Box question="Is Happens-before a transitive property?">
+  Yes.
+  if $ a \rightarrow b $ and $ b \rightarrow c $
+
+  $ \Rrightarrow  a \rightarrow c$
+</Box>
+
+<Box question="When are events said to be concurrent?">
+  When they happen in separate processes that do not exchange messages. 
+
+  $ a \rightarrow b $ is not true, nor is $ b \rightarrow a $
+
+  Pretty much nothing can be said about when the events happened first. 
+</Box>
+
+For every event $a$, we assign a value $C(a)$ on which all processes agree. 
+
+<Box question="What property must these values have?">
+  - If $a$ and $b$ are in the same process, and $a$ occurs before $b then $ a \rightarrow b $ then $ C(a) < C(b)> $
+  - If $a$ is a sending event to another process and $b$ is the receiving event, then $C(a)$ and $C(b)$ have to be assigned such that
+    everyone agrees that $C(a) < C(b)$ 
+</Box>
+
+<Box question="How to make corrections to the clock time?">
+  The clock time, $C$, must always increase. Corrections to time can be made by adding a positive value, not substracting one. 
+</Box>
+
+<Box question="Lamport's Logical Clocks Implementation">
+  Each process, $P_i$, mantains a local counter, $C_i$
+  <Box question="How are the clocks updated?">
+    1. Before executing an event, $P_i$ increments $C_i$: $ C_i \leftarrow + d $
+    2. When process $P_i$ sends message $m$ to $P_j$, it sets m's timestamp $ts(m) = C_i$
+    3. When $P_j$ receives m, it adjusts its own local counter as $ C_j \leftarrow max{C_j, ts(m)} $
+  </Box>
+
+  <Box question="If a||b then C(a) < C(b)?">
+    True. 
+    But the converse is false. $ C(a) < C(b) \Rrightarrow a \rightarrow b $
+    <Box question="Why?">
+      - Processes could be concurrent
+      - Could be causally preceeding
+    </Box>
+  </Box>
+</Box>
+
+#### Total-ordered multicasting
+
+Consider a DB has been replicated across several sites. 
+
+
+#### Lamport's Clock Limitation
+
+#### Vector Clocks
+
+### References
+<Box question="Sources">
+- [Cristian’s Algorithm](https://www.geeksforgeeks.org/cristians-algorithm/)
+- Chapter 6 of [Distributed Systems 3rd edition (2017)](https://www.distributed-systems.net/index.php/books/ds3/)
+</Box>
