@@ -867,7 +867,7 @@ Distributed Systems 3rd edition (2017) 6.2
 For every event $a$, we assign a value $C(a)$ on which all processes agree. 
 
 <Box question="What property must these values have?">
-  - If $a$ and $b$ are in the same process, and $a$ occurs before $b then $ a \rightarrow b $ then $ C(a) < C(b)> $
+  - If $a$ and $b$ are in the same process, and $a$ occurs before $b$ then $ a \rightarrow b $ then $ C(a) < C(b) $
   - If $a$ is a sending event to another process and $b$ is the receiving event, then $C(a)$ and $C(b)$ have to be assigned such that
     everyone agrees that $C(a) < C(b)$ 
 </Box>
@@ -896,8 +896,12 @@ For every event $a$, we assign a value $C(a)$ on which all processes agree.
 
 #### Total-ordered multicasting
 
-Consider a DB has been replicated across several sites. 
+Consider a DB has been replicated across several sites in order to improve query performance. A query is forwarded to the nearest copy.
+Each update operation must be carried out at each replica in the same order. 
 
+<Box question="What is total-ordered multicasting?">
+  Multicast operation by which all messages are delivered in the same order to each receiver
+</Box>
 
 #### Lamport's Clock Limitation
 
