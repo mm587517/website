@@ -903,9 +903,62 @@ Each update operation must be carried out at each replica in the same order.
   Multicast operation by which all messages are delivered in the same order to each receiver
 </Box>
 
-#### Lamport's Clock Limitation
-
 #### Vector Clocks
+
+<Box question="What can Lamport clocks say about the relationship of events a and be if C(a) < C(b)?">
+  Nothing. It does not imply $a$ happened before $b$. 
+
+  <Box question="Why? Hint: use three processes">
+    - $T_s(m_i):$ time at which $m_i$ was sent
+    - $T_r(m_i)$ time of receipt
+
+    We know that for each $m_i$:  $ T_s(m_i) < T_r(m_i) $
+
+    Consider messages $ m_i $ and $ m_j $, what can we say from $ T_r(m_i) < T_s(m_j) $?
+    
+    Let $ m_i = m_1 $ and $ m_j = m_3 $ 
+
+    Looking at the figure below, we notice that $m_3$ was sent after receiving $m_1$. This means that $m_3$ _may_
+    have depended on both $m_1$ and $m_2$. We cannot be sure since Lamport clocks do **not** capture causality. 
+
+    ![Concurrent message transmission](http://csis.pace.edu/~marchese/CS865/Lectures/Chap6/Chapter6_files/image046.jpg)
+  </Box>
+</Box>
+
+<Box question="How to capture causality?">
+  Vector clocks
+</Box>
+
+<Box question="How to track causality?">
+
+  Assign each event a unique name and an incrementing counter: $p_k$ is the $k^{th}$ event that happened at process $P$
+  Then keep track of the _causal histories_
+
+  Example:
+  Two local events happen at process P, then causal history $H(p_2) = \{ p_1, p_2 \} $
+</Box>
+
+Assume process $P$ sends a message to $Q$. At the time of arrival, the causal history of $Q$ was ${q_1}$. To track causality, $P$ sends
+its own causal history ${p_1, p_2}$. Upon arrival, $Q$ records the event as $q_2$ and updates its causal history to ${p_1, p_2, p_3, q_1, q_2}$
+
+<Box question="Why is the P's causality history before Q's?">
+  To determine if an event $p$ ocurred before $q$ , we check that $p \in H(q)$
+  Assumming q is the last local event. 
+</Box>
+
+<Box question="What is the problem with causal histories?">
+  - Representation is inneficient
+  But, there is no need to keep track of all successive events in a process, just the last one!
+</Box>
+
+<Box question="How to construct vector clocks?">
+  - Assign an index to each process
+  - $j^{th}$ entry represents number of events that occurred before $P_j$
+
+  We now construct the vector clock by: letting each process $P_i$ mantain a vector $VC_i$ with the following properties:
+  1. $VC_i[i]$ number of events that have occurred so far at $P_i$
+  2. If $ VC_i[j] = k $ then $P_i$ knows that $k$ events occured at $P_j$
+</Box>
 
 ### References
 <Box question="Sources">
