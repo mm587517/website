@@ -1077,8 +1077,96 @@ Geeks for Geeks
   So there cannot be two processes executing at the same time. 
 </Box>
 
+#### Ricart Agrawala Algorithm
+
+Geeks for Geeks
+<Box question="What type of algorithm is Ricart Agrawala's?">
+  Permission based algorithm
+</Box>
+
+<Box question="How are critical sections executed?">
+  They are executed in the increasing order of timestamps. 
+</Box>
+
+<Box question="What are the types of messages in the algorithm?">
+  - REQUEST: message sent to all other sites to get their permission to enter CS
+  - REPLY: message to requesting site that gives its permission to enter CS
+</Box>
+
+<Box question="How does each site keep track of CS requests?">
+  Each site $S_i$ has a local queue denoted by $request_queue_i$
+  This queue orders requests requests by their timestamps.
+</Box>
+
+<Box question="Summarize Ricart Agrawala's Algorithm">
+
+  Let $S_i$ be the site t
+
+  **Critical section request:**
+
+  - $S_i$ sends message with timestamp to other sites
+  - Sites $S_j$ reply immediately to $S_i$ with approval if $S_j$:
+
+    - is not interested in the critical section
+    - not executing the CS
+    - has a request for critical section with a larger timestamp than incoming request
+
+  - The site $S_j$ sends a delayed approval to $S_i$ if it had a request for the critical section with a smaller timestamp than the incoming request; in this case the response is delayed until the critical section is done
+
+  **Critical section access:**
+
+  - $S_i$ enters critical section after receiving approval from every other site
+  
+  **Critical section release:**
+    - $S_i$ replies to all the defferred requests
+</Box>
+
+
+<Box question="Example">
+  Image taken from [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+  ![Ricart Agrawala](https://therenegadecoder.com/wp-content/uploads/2019/07/ricart-agrawala-algorithm-1024x683.png)
+</Box>
+
+<Box question="Does this algorithm require FIFO?">
+  No. 
+  "That’s because each process is personally responsible for granting permission. Even with out of order messages due to transmission delays, the REPLY message will never come thanks to the logical clocks."
+  [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+</Box>
+
+#### Maekawa's Algorithm
+
+<Box question="How does it differ from the previous algorithms?">
+  Requests are not made to every other site, only a subset of them. 
+</Box>
+
+<Box question="What are the types of messages in the algorithm?">
+  - REQUEST: message sent to sites in subset to get their permission to enter CS
+  - REPLY: message to requesting site that gives its permission to enter CS
+  - RELEASE: message to all other sites in the subset when exiting CS
+</Box>
+
+<Box question="Summarize the algorithm?">
+
+  Summary of critical section request:
+
+    $S_i$ sends request to subset of sites
+    Sites $S_j$ sends a reply to $S_i$ if it has not already sent one since the last release
+    If it has sent a reply, it puts the request inside the queue. 
+
+      
+  Summary of critical section access: 
+
+    $S_i$ enters critical section when after receiving replies from all sites in the subset
+
+</Box>
+
+<Box question="Can deadlocks occur?">
+  Yes. 
+</Box>
+
 ### References
 <Box question="Sources">
   - [Lamport’s Algorithm for Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/lamports-algorithm-for-mutual-exclusion-in-distributed-system/?ref=rp)
   - [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+  - [Ricart–Agrawala Algorithm in Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/ricart-agrawala-algorithm-in-mutual-exclusion-in-distributed-system/)
 </Box>
