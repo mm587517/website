@@ -780,7 +780,6 @@ This post serves as a study guide. All the links for the information can be foun
   </Box>
 </Section>
 
-
 <Section section="Clocks">
   ### Cristian's Clock
   Distributed Systems 3rd edition (2017) 6.1
@@ -977,196 +976,197 @@ This post serves as a study guide. All the links for the information can be foun
   </Box>
 </Section>
 
-## Mutual Exclusion
+<Section section="Mutual Exclusion">
+  <Box question="What categories are mutual exclusion algorithms classified in?">
+    - Token Based Solutions: passing a special message between processes. Whoever holds the token gets to access the shared resource
+      - Pros: avoids starvation & deadlocks
+      - Cons: if the token is lost, a procedure needs to create a new one
 
-<Box question="What categories are mutual exclusion algorithms classified in?">
-  - Token Based Solutions: passing a special message between processes. Whoever holds the token gets to access the shared resource
-    - Pros: avoids starvation & deadlocks
-    - Cons: if the token is lost, a procedure needs to create a new one
+    - Permission Based Approach: process needs permission to access a resource
+  </Box>
 
-  - Permission Based Approach: process needs permission to access a resource
-</Box>
+  ### A centralized algorithm
 
-### A centralized algorithm
+  <Box question="Straightforward way to achieve mutual exclusin in DS?">
+    - Select one process as coordinator
+    - When a certain process wants access to resource, ask the coordinator
+    - If resource is not being accessed, reply with permission
+    - If resource is being accessed, either refrain from replying or deny permission. Either way, queue the request
+    - Once a process is done, notify coordinator
+    - Coordinator then calls the next item in the queue.
 
-<Box question="Straightforward way to achieve mutual exclusin in DS?">
-  - Select one process as coordinator
-  - When a certain process wants access to resource, ask the coordinator
-  - If resource is not being accessed, reply with permission
-  - If resource is being accessed, either refrain from replying or deny permission. Either way, queue the request
-  - Once a process is done, notify coordinator
-  - Coordinator then calls the next item in the queue.
+    ![Centralizes Algorithm](data:image/png;base64,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)
+  </Box>
 
-  ![Centralizes Algorithm](data:image/png;base64,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)
-</Box>
+  <Box question="Pros and Cons?">
 
-<Box question="Pros and Cons?">
+    Pros:
+      - fair
+      - no starvation
+      - easy to implement
+      - 3 messages per resource (ask for permission, grant permission, release resource)
+    
+    Cons:
+      - Coordinator is a single point of failure
+      - In a big system, the coordinator is a performance bottleneck
+  </Box>
 
-  Pros:
-    - fair
-    - no starvation
-    - easy to implement
-    - 3 messages per resource (ask for permission, grant permission, release resource)
-  
-  Cons:
-    - Coordinator is a single point of failure
-    - In a big system, the coordinator is a performance bottleneck
-</Box>
+  ### Distributed Algorithms
 
-### Distributed Algorithms
+  #### Lamport's Algorithm
 
-#### Lamport's Algorithm
+  Geeks for Geeks
+  <Box question="What type of algorithm is Lamport's?">
+    Permission based algorithm
+  </Box>
 
-Geeks for Geeks
-<Box question="What type of algorithm is Lamport's?">
-  Permission based algorithm
-</Box>
+  <Box question="How are critical sections executed?">
+    They are executed in the increasing order of timestamps. 
+  </Box>
 
-<Box question="How are critical sections executed?">
-  They are executed in the increasing order of timestamps. 
-</Box>
+  <Box question="What are the types of messages in the algorithm?">
+    - REQUEST: message sent to all other sites to get their permission to enter CS
+    - REPLY: message to requesting site that gives its permission to enter CS
+    - RELEASE: message to all other sites when exiting CS
+  </Box>
 
-<Box question="What are the types of messages in the algorithm?">
-  - REQUEST: message sent to all other sites to get their permission to enter CS
-  - REPLY: message to requesting site that gives its permission to enter CS
-  - RELEASE: message to all other sites when exiting CS
-</Box>
+  <Box question="How does each site keep track of CS requests?">
+    Each site $S_i$ has a local queue denoted by $request_queue_i$
+    This queue orders requests requests by their timestamps.
+  </Box>
 
-<Box question="How does each site keep track of CS requests?">
-  Each site $S_i$ has a local queue denoted by $request_queue_i$
-  This queue orders requests requests by their timestamps.
-</Box>
+  <Box question="Summarize Lamport's Algorithm">
 
-<Box question="Summarize Lamport's Algorithm">
+    Let $S_i$ be the site t
 
-  Let $S_i$ be the site t
+    **Critical section request:**
 
-  **Critical section request:**
+    - $S_i$ sends request with timestamp to other sites while also putting it in its local queue
+    - Site $S_j$ puts $S_i$'s request in the local request queue
+    - $S_j$ replies to $S_i$ 
 
-  - $S_i$ sends request with timestamp to other sites while also putting it in its local queue
-  - Site $S_j$ puts $S_i$'s request in the local request queue
-  - $S_j$ replies to $S_i$ 
+    **Critical section access:**
 
-  **Critical section access:**
+    - $S_i$ enters critical section when: 
+      - $S_i$ is on the top of the local queue
+      - $S_i$ receives a reply with a larger timestamp from all sites $S_j$
 
-  - $S_i$ enters critical section when: 
-    - $S_i$ is on the top of the local queue
-    - $S_i$ receives a reply with a larger timestamp from all sites $S_j$
+    **Critical section release:**
+      - $S_i$ removes its request from local queue
+      - $S_i$ sends a timestamped RELEASE message to other sites
+      - All other sites remove $S_i$'s request from their local queues upon recieval from previous message
+  </Box>
 
-  **Critical section release:**
-    - $S_i$ removes its request from local queue
-    - $S_i$ sends a timestamped RELEASE message to other sites
-    - All other sites remove $S_i$'s request from their local queues upon recieval from previous message
-</Box>
+  <Box question="Example">
+    Image taken from [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+    ![Lamport's Algorithm](https://i2.wp.com/therenegadecoder.com/wp-content/uploads/2019/07/lamport-algorithm.png?fit=800%2C534&ssl=1)
+  </Box>
 
-<Box question="Example">
-  Image taken from [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
-  ![Lamport's Algorithm](https://i2.wp.com/therenegadecoder.com/wp-content/uploads/2019/07/lamport-algorithm.png?fit=800%2C534&ssl=1)
-</Box>
+  <Box question="Proof by contradiction">
+    Assumptions:
+      1. $S_i$ and $S_j$ are both in the CS
+      2. $S_i$'s request timestamp is smaller than $P_j$'s
 
-<Box question="Proof by contradiction">
-  Assumptions:
-    1. $S_i$ and $S_j$ are both in the CS
-    2. $S_i$'s request timestamp is smaller than $P_j$'s
+    With the previous assumptions it means $S_i$ and $S_j$ are on top of their respective queues
+    Using FIFO, assumption 2, and the fact that $P_j$ is executing, then the request from $P_i$ is in $P_j$'s queue
 
-  With the previous assumptions it means $S_i$ and $S_j$ are on top of their respective queues
-  Using FIFO, assumption 2, and the fact that $P_j$ is executing, then the request from $P_i$ is in $P_j$'s queue
+    This is a contradiction since, $P_i$ should be at the top of the queue since it has a smaller timestamp
 
-  This is a contradiction since, $P_i$ should be at the top of the queue since it has a smaller timestamp
+    So there cannot be two processes executing at the same time. 
+  </Box>
 
-  So there cannot be two processes executing at the same time. 
-</Box>
+  #### Ricart Agrawala Algorithm
 
-#### Ricart Agrawala Algorithm
+  Geeks for Geeks
+  <Box question="What type of algorithm is Ricart Agrawala's?">
+    Permission based algorithm
+  </Box>
 
-Geeks for Geeks
-<Box question="What type of algorithm is Ricart Agrawala's?">
-  Permission based algorithm
-</Box>
+  <Box question="How are critical sections executed?">
+    They are executed in the increasing order of timestamps. 
+  </Box>
 
-<Box question="How are critical sections executed?">
-  They are executed in the increasing order of timestamps. 
-</Box>
+  <Box question="What are the types of messages in the algorithm?">
+    - REQUEST: message sent to all other sites to get their permission to enter CS
+    - REPLY: message to requesting site that gives its permission to enter CS
+  </Box>
 
-<Box question="What are the types of messages in the algorithm?">
-  - REQUEST: message sent to all other sites to get their permission to enter CS
-  - REPLY: message to requesting site that gives its permission to enter CS
-</Box>
+  <Box question="How does each site keep track of CS requests?">
+    Each site $S_i$ has a local queue denoted by $request_queue_i$
+    This queue orders requests requests by their timestamps.
+  </Box>
 
-<Box question="How does each site keep track of CS requests?">
-  Each site $S_i$ has a local queue denoted by $request_queue_i$
-  This queue orders requests requests by their timestamps.
-</Box>
+  <Box question="Summarize Ricart Agrawala's Algorithm">
 
-<Box question="Summarize Ricart Agrawala's Algorithm">
+    Let $S_i$ be the site t
 
-  Let $S_i$ be the site t
+    **Critical section request:**
 
-  **Critical section request:**
+    - $S_i$ sends message with timestamp to other sites
+    - Sites $S_j$ reply immediately to $S_i$ with approval if $S_j$:
 
-  - $S_i$ sends message with timestamp to other sites
-  - Sites $S_j$ reply immediately to $S_i$ with approval if $S_j$:
+      - is not interested in the critical section
+      - not executing the CS
+      - has a request for critical section with a larger timestamp than incoming request
 
-    - is not interested in the critical section
-    - not executing the CS
-    - has a request for critical section with a larger timestamp than incoming request
+    - The site $S_j$ sends a delayed approval to $S_i$ if it had a request for the critical section with a smaller timestamp than the incoming request; in this case the response is delayed until the critical section is done
 
-  - The site $S_j$ sends a delayed approval to $S_i$ if it had a request for the critical section with a smaller timestamp than the incoming request; in this case the response is delayed until the critical section is done
+    **Critical section access:**
 
-  **Critical section access:**
-
-  - $S_i$ enters critical section after receiving approval from every other site
-  
-  **Critical section release:**
-    - $S_i$ replies to all the defferred requests
-</Box>
+    - $S_i$ enters critical section after receiving approval from every other site
+    
+    **Critical section release:**
+      - $S_i$ replies to all the defferred requests
+  </Box>
 
 
-<Box question="Example">
-  Image taken from [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
-  ![Ricart Agrawala](https://therenegadecoder.com/wp-content/uploads/2019/07/ricart-agrawala-algorithm-1024x683.png)
-</Box>
+  <Box question="Example">
+    Image taken from [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+    ![Ricart Agrawala](https://therenegadecoder.com/wp-content/uploads/2019/07/ricart-agrawala-algorithm-1024x683.png)
+  </Box>
 
-<Box question="Does this algorithm require FIFO?">
-  No. 
-  "That’s because each process is personally responsible for granting permission. Even with out of order messages due to transmission delays, the REPLY message will never come thanks to the logical clocks."
-  [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
-</Box>
+  <Box question="Does this algorithm require FIFO?">
+    No. 
+    "That’s because each process is personally responsible for granting permission. Even with out of order messages due to transmission delays, the REPLY message will never come thanks to the logical clocks."
+    [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+  </Box>
 
-#### Maekawa's Algorithm
+  #### Maekawa's Algorithm
 
-<Box question="How does it differ from the previous algorithms?">
-  Requests are not made to every other site, only a subset of them. 
-</Box>
+  <Box question="How does it differ from the previous algorithms?">
+    Requests are not made to every other site, only a subset of them. 
+  </Box>
 
-<Box question="What are the types of messages in the algorithm?">
-  - REQUEST: message sent to sites in subset to get their permission to enter CS
-  - REPLY: message to requesting site that gives its permission to enter CS
-  - RELEASE: message to all other sites in the subset when exiting CS
-</Box>
+  <Box question="What are the types of messages in the algorithm?">
+    - REQUEST: message sent to sites in subset to get their permission to enter CS
+    - REPLY: message to requesting site that gives its permission to enter CS
+    - RELEASE: message to all other sites in the subset when exiting CS
+  </Box>
 
-<Box question="Summarize the algorithm?">
+  <Box question="Summarize the algorithm?">
 
-  Summary of critical section request:
+    **Summary of critical section request:**
 
-    $S_i$ sends request to subset of sites
-    Sites $S_j$ sends a reply to $S_i$ if it has not already sent one since the last release
-    If it has sent a reply, it puts the request inside the queue. 
+      $S_i$ sends request to subset of sites
+      Sites $S_j$ sends a reply to $S_i$ if it has not already sent one since the last release
+      If it has sent a reply, it puts the request inside the queue. 
 
-      
-  Summary of critical section access: 
+        
+    **Summary of critical section access: **
 
-    $S_i$ enters critical section when after receiving replies from all sites in the subset
+      $S_i$ enters critical section when after receiving replies from all sites in the subset
 
-</Box>
+  </Box>
 
-<Box question="Can deadlocks occur?">
-  Yes. 
-</Box>
+  <Box question="Can deadlocks occur?">
+    Yes. 
+  </Box>
 
-### References
-<Box question="Sources">
-  - [Lamport’s Algorithm for Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/lamports-algorithm-for-mutual-exclusion-in-distributed-system/?ref=rp)
-  - [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
-  - [Ricart–Agrawala Algorithm in Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/ricart-agrawala-algorithm-in-mutual-exclusion-in-distributed-system/)
-</Box>
+  ### References
+  <Box question="Sources">
+    - [Lamport’s Algorithm for Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/lamports-algorithm-for-mutual-exclusion-in-distributed-system/?ref=rp)
+    - [Distributed Mutual Exclusion Using Logical Clocks](https://therenegadecoder.com/code/distributed-mutual-exclusion-using-logical-clocks/)
+    - [Ricart–Agrawala Algorithm in Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/ricart-agrawala-algorithm-in-mutual-exclusion-in-distributed-system/)
+    - [Maekawa’s Algorithm for Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/maekawas-algorithm-for-mutual-exclusion-in-distributed-system/)
+  </Box>
+</Section>
