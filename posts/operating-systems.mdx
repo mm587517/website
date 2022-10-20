@@ -1170,3 +1170,193 @@ This post serves as a study guide. All the links for the information can be foun
     - [Maekawa’s Algorithm for Mutual Exclusion in Distributed System](https://www.geeksforgeeks.org/maekawas-algorithm-for-mutual-exclusion-in-distributed-system/)
   </Box>
 </Section>
+
+<Section section="Databases">
+
+  <Box question="What is a database?">
+    Collection of shared data that can be accessed by users.
+  </Box>
+
+  ### Transactions
+
+  <Box question="What are transactions?">
+    Sequence of multiple operations performed on a database, and all served as a single logical unit of work
+  </Box>
+
+  <Box question="Actions">
+    - Query: read-only
+    - Update: modify object/s
+  </Box>
+
+  <Box question="Assumptions?">
+    They preserve consistency and take finite amount of time
+  </Box>
+
+
+  <Box question="ACID?">
+    - Atomic
+    - Consistent: transactions only make changes in predefined ways
+    - Isolate: transactions don’t interfere with or affect one another
+    - Durability: changes  made by successful transactions will be saved
+  </Box>
+
+  <Box question="What is the transaction model?">
+    - BEGIN_TRANSACTION
+    - END_TRANSACTION
+    - ABORT_TRANSACTION
+    - READ
+    - WRITE
+  </Box>
+
+  <Box question="What are nested transactions?">
+    When transactions are constructed as a number of subtransactions 
+  </Box>
+
+  <Box question="What are distributed transactions?">
+    When clients wrap a number of requests, possibly for different servers. 
+    The idea is that either all the requests get executed, or none do. 
+  </Box>
+
+
+  ### Concurrency Control
+
+  <Box question="What is concurrency control?">
+    Protocols to mantain consistency
+  </Box>
+
+  <Box question="What three modules(managers) does a DB system consists?">
+    - Transaction Manager: intercepts and executes all the submitted transactions.
+    - Scheduler: grands or releases locks on data objects as requested by a transaction
+    - Data Manager: carries out the read-write requests issued by the transaction manager
+
+    <Box question="Which one has to enforce concurrency control?">
+      Scheduler
+    </Box>
+  </Box>
+
+  <Box question="Can the previous models be expanded to a Distributed System?">
+    Yes
+    ![Model of DS](https://courses.cs.vt.edu/~cs5204/fall00/distributedDBMS/phanouriou/figure3.gif)
+  </Box>
+
+
+  <Box question="When do transactions conflict with each other?">
+    If they access the same resource, and at least one of them is a writing operation. 
+  </Box>
+
+  <Box question="What is serial execution?">
+    Transaction $b$ executes after transaction $a$ has completed
+  </Box>
+
+  <Box question="What is concurrent execution?">
+    Transaction $b$ begins execution before $a$ has completed
+  </Box>
+
+
+  ### Logs
+
+  <Box question="What is a log?">
+    Order of actions performed by transactions
+  </Box>
+
+  <Box question="When are logs equivalent?">
+    - All transactions in both logs see the same state in DB
+    - DB final state is the same
+  </Box>
+
+  <Box question="Serial log vs Serializable Log?">
+    - Serial: when transactions wait for the previous transaction to terminate
+    - Serializable: When actions are interleaved and the result is the same as the serial execution
+  </Box>
+
+  <Box question="What is a Serialization Graph?">
+
+    Directed graph to test if a log is serializable. 
+    - Transactions serve as nodes
+    -  An edge ei is constructed between node $T_j$ to $T_k$ if one of the operations in $T_j$ appears in the schedule before some conflicting operation in $T_k$ .
+
+  </Box>
+
+  <Box question="How to draw graph?">
+    - Number of nodes = Number of transactions
+    - Directed edge $ i \rightarrow j $ for each conflicting operation $ o_i \rightarrow o_j $
+  </Box>
+
+  ### Concurrency Control Algorithms
+
+  <Box question="What do they do?">
+    Control the interleaving of conflicting transactions in order to mantain DB consistency 
+  </Box>
+
+  #### Lock Based 
+
+  <Box question="How do lock-based algorithms work?">
+    - Transactions lock data before accessing it
+  </Box>
+
+  <Box question="Types of Lock">
+    <Box question="Static Lock">
+      1. Transaction locks all resources neede
+      2. Execution begins
+      3. Release all locks at the end of execution
+    </Box>
+
+    <Box question="Dyncamic Lock">
+      1. Grab lock when needed
+      2. Releases lock after accessing resource
+    </Box>
+  </Box>
+
+  <Box question="What does it mean for a transaction to be well formed?">
+    - locks data before accessing
+    - does not lock data more than once
+    - unlocks data before transaction completion
+  </Box>
+
+  <Box question="Two-phase locking">
+    - once lock is released, it cannot be requested again
+    - algorithm has a growing phase, then a lock point phase, finally a release phase
+    This means there are no local minimums in the graph
+  </Box>
+
+  <Box question="How to know if all legal logs in a set of transactions are serializable?">
+    - if they are well formed
+    - fllow a two-phase scheme 
+  </Box>
+
+  <Box question="Issues with two-phase locking">
+    - Deadlocks
+    - Cascaded rollbacks
+  </Box>
+
+  #### Time Based Algorithms
+
+  <Box question="What is the idea?">
+    Use a transaction's timestamp to decide the order of execution
+  </Box>
+
+  <Box question="How to timestamp transactions?">
+    Lamport's logical clock
+    - Transaction Manager timestamps each tranaction
+  </Box>
+
+  <Box question="Basic Timestamp Ordering">
+    - Every transaction has an issued timestamp based on arrival
+    - Conflicting operations follow transaction order
+
+    Notes: 
+    W_TS(x): largest timestamp of any transaction that executed write(x)
+    R_TS(x): largest timestamp of any transaction that executed read(x)
+
+  </Box>
+
+  ### References
+  <Box question="Sources">
+    - [What is a database transaction?](https://fauna.com/blog/database-transaction)
+    - [ACID Transactions](https://www.databricks.com/glossary/acid-transactions)
+    - [Concurrency Control in DBMS](https://www.geeksforgeeks.org/concurrency-control-in-dbms/)
+    - [Distributed DBMS model Transactions, Architecture](https://courses.cs.vt.edu/~cs5204/fall00/distributedDBMS/phanouriou/dbms.html)
+    - [Explain serial execution or transaction with an example(DBMS)](https://www.tutorialspoint.com/explain-serial-execution-or-transaction-with-an-example-dbms)
+    - [Precedence Graph For Testing Conflict Serializability in DBMS](https://www.geeksforgeeks.org/precedence-graph-for-testing-conflict-serializability-in-dbms/)
+  </Box>
+</Section>
