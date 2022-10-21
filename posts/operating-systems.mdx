@@ -2,6 +2,7 @@
 author: Marcelo Morales
 title: Operating Systems
 banner: https://media.istockphoto.com/photos/on-digital-interface-and-blue-network-background-picture-id1130990010?k=20&m=1130990010&s=612x612&w=0&h=6DcPO6xYTQ64DpFlxqRDepkV9t58K8fjbHfZnUGCbOs=
+type: Classes
 ---
 
 This post serves as a study guide. All the links for the information can be found at the end of each section. I do not claim it as my own. This page is an organization of topics. 
@@ -1160,6 +1161,40 @@ This post serves as a study guide. All the links for the information can be foun
 
   <Box question="Can deadlocks occur?">
     Yes. 
+  </Box>
+
+
+  ### Election
+
+  #### Garcia-Molina
+
+  <Box question="What is the bully algorithm?">
+    Solution for the electing a coordinator.
+  </Box>
+
+  <Box question="Explained">
+    - Consider $N$ processes ${P_0,...,P_{N-1}}$
+    - $id(P_k)=k$
+
+    When the coordinator stops responding, a process $P_k$ initiats election:
+      1. $P_k$ sends ELECTION messages to all higher processes ($P_{k+1}, ..., P_{n-1}$)
+      2. If no one responds, $P_k$ is the coordinator
+      3. If a higher up responds, they take over.
+      4. Repeat until coordinator gets elected
+
+      "Biggest guy in town wins"
+  </Box>
+
+  #### Ring Algorithm
+
+  <Box question="Explained">
+    - Each process knows its successor
+    When coordinator stops responding
+    1. Each process sends its ID to the successor
+    2. If successor node is suspendes, skip it until you find a running one
+    3. At each node, they add their IDS to nominate themselves
+    4. After returning the initial node, the node with the highest ID is elected
+    5. Second loop to inform everyone
   </Box>
 
   ### References
