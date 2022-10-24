@@ -4,10 +4,10 @@ import { Fade, IconButton, useDisclosure } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 interface CarouselProps {
-  images: string[];
+  children: string[];
 }
 
-export const Carousel: React.FC<CarouselProps> = ({ images }) => {
+export const Carousel: React.FC<any> = ({ children }) => {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(true);
 
@@ -19,7 +19,7 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
     setTimeout(
       () =>
         setActive(
-          (((active - 1) % images.length) + images.length) % images.length
+          (((active - 1) % children.length) + children.length) % children.length
         ),
       time
     );
@@ -29,13 +29,13 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
   const onRight = () => {
     setOpen(false);
 
-    setTimeout(() => setActive((active + 1) % images.length), time);
+    setTimeout(() => setActive((active + 1) % children.length), time);
     setTimeout(() => setOpen(true), time + 100);
   };
 
   return (
     <div>
-      <Fade in={open}>{images[active]}</Fade>
+      <Fade in={open}>{children[active]}</Fade>
       <IconButton
         variant="outline"
         colorScheme="teal"
