@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { Fade, IconButton, useDisclosure } from "@chakra-ui/react";
+import { Center, Fade, IconButton } from "@chakra-ui/react";
 
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-
-interface CarouselProps {
-  children: string[];
-}
 
 export const Carousel: React.FC<any> = ({ children }) => {
   const [active, setActive] = useState(0);
@@ -34,8 +30,7 @@ export const Carousel: React.FC<any> = ({ children }) => {
   };
 
   return (
-    <div>
-      <Fade in={open}>{children[active]}</Fade>
+    <Center>
       <IconButton
         variant="outline"
         colorScheme="teal"
@@ -43,6 +38,12 @@ export const Carousel: React.FC<any> = ({ children }) => {
         icon={<ArrowLeftIcon />}
         onClick={onLeft}
       />
+      <Fade in={open}>
+        <Center w="500px" h="200px">
+          {children[active]}
+        </Center>
+      </Fade>
+
       <IconButton
         variant="outline"
         colorScheme="teal"
@@ -50,6 +51,6 @@ export const Carousel: React.FC<any> = ({ children }) => {
         icon={<ArrowRightIcon />}
         onClick={onRight}
       />
-    </div>
+    </Center>
   );
 };

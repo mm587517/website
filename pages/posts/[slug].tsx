@@ -82,6 +82,7 @@ const components = {
   p: ({ children }: React.PropsWithChildren) => (
     <Text fontSize="md">{children}</Text>
   ),
+
   pre: CodeBlock as any,
   Box: ObscureBlock as any,
   Section: ObscureSection as any,
