@@ -1395,3 +1395,114 @@ This post serves as a study guide. All the links for the information can be foun
     - [Precedence Graph For Testing Conflict Serializability in DBMS](https://www.geeksforgeeks.org/precedence-graph-for-testing-conflict-serializability-in-dbms/)
   </Box>
 </Section>
+
+
+## System Dependability
+
+### Fault Tolerance
+
+<Box question="What is fault tolerance?">
+  Ability of a system to continue operating despite fauls
+</Box>
+
+<Box question="What are some related concepts to dependability?">
+  - Availability
+  - Reliability
+  - Safety
+  - Security
+  - Maintainability 
+</Box>
+
+<Box question="Reliability vs Availability">
+  ![RvsA](https://s7280.pcdn.co/wp-content/uploads/2020/05/avail-reliab.png)
+
+  - **Availability** refers to the percentage of time that the infrastructure, system, or solution remains operational under normal circumstances in order to serve its intended purpose
+  - **Reliability** refers to the probability that the system will meet certain performance standards in yielding correct output for a desired time duration.
+</Box>
+
+<Box question="Safety vs Security">
+  - **Safety**: if the downtime of your system will cause consequeunces (machine control radiation, if firmware is wrong, then more radiation is exposed. This is a safety issue)
+  - **Security**: system security, protection data, authentication
+</Box>
+
+<Box question="Maintainability">
+  How easy it is to mantain your system.
+</Box>
+
+<Box question="Cause Effect relationship">
+  Fault Tolerance $\rightarrow$ Fault Masking $\rightarrow$ Fault Tolerance $\rightarrow$ Failire Recovery
+</Box>
+
+### Recovery
+
+<Box question="What is recovery?">
+  - Restoring system to its operational state
+  - DS achieve this by replication
+    - this can backfire if replicas are inconsistent
+  
+</Box>
+
+<Box question="Concepts">
+  Fault (Physical) $\rightarrow$ Errors (Application) $\rightarrow$ Failures (System)
+
+
+  - Physical Lebel: gate stuck at "0", input out of range
+  - Application: wrong value in prg, seg fault
+  - System: app aborted, machine crash
+
+</Box>
+
+<Box question="How to classify Failure?">
+  These failures can be the cause of a fault
+  - Process: deadlocks, timeouts, wrong input, seg faults
+  - System: power failure, CPU failire, memory failure...
+  - Secondary Storage: head crash, dudt, parity error
+  - Communication: switching node failure, link breakage
+</Box>
+
+<Box question="How to perform Failure recovery?">
+  There are two types of failure recovery:
+  - forward recovery: process continues running, trying to fix the problem until healthy
+  - backward recovery: get system to earlier state which is healthy
+    - operation based
+    - state based
+</Box>
+
+<Box question="Forward Recovery">
+  process continues running, trying to fix the problem until healthy
+  - Assumption: errors can be detedted and characterized
+  - Tradeoffs: 
+    - lower overhead
+    - not as general as backward
+    - can deal qirh unrecoverable components
+  - Usually at the application level
+</Box>
+
+<Box question="Backward Recovery">
+  - Assumption:
+    - previous state can be restored
+    - information needed for recovery is stored on a *stable* storage
+  - Operation Based Approach:
+    - log records state changes and allows reconstruction
+  - State Based Approach
+    - snapshot of the state is taken periodically
+</Box>
+
+
+<Box question="State Based Approach">
+  - Previous snapshots used for recovery
+  - snapshots = checkpoints
+  - rolling back is restoring to prior state
+  - frequency: tradeoff between overhead of checkpoinitng and overhead of repeating execution of process sytems
+
+  - Shadow Page: partial state saved
+    - only modified part is saved
+</Box>
+
+
+You can actually combine state based and operation based. 
+Go back to a certain snapshot, then start using the logs
+
+questions:
+- when to use state based vs log based?
+depends how frequent you need states
