@@ -37,6 +37,7 @@ export const Carousel: React.FC<any> = ({ children }) => {
         aria-label="Left"
         icon={<ArrowLeftIcon />}
         onClick={onLeft}
+        marginRight={8}
       />
       <Fade in={open}>
         <Center w="500px" h="200px">
@@ -50,6 +51,7 @@ export const Carousel: React.FC<any> = ({ children }) => {
         aria-label="Right"
         icon={<ArrowRightIcon />}
         onClick={onRight}
+        marginLeft={8}
       />
     </Center>
   );
