@@ -1564,3 +1564,67 @@ A common instance of Livelock is that when two persons meet face to face in a co
     Livelock is a risk with some algorithms that detect and recover from deadlock. If more than one process takes action, the deadlock detection algorithm can be repeatedly triggered. This can be avoided by ensuring that only one process (chosen randomly or by priority) takes action.
 
 </Box>
+
+<Box question="What is a global checkpoint?">
+  Collection of local checkpoints
+</Box>
+
+<Box question="Should you take checkpoints are random?">
+  No, it can lead to domino effect
+</Box>
+
+<Box question="Criteria for Global Checkpoints?">
+  <Box question="strongly consistent">
+    no messages in transit during interval between checkpoints
+  </Box>
+
+  <Box question="Consistent">
+    - each message is recorded as both sent and received
+    - lost messages are acceptable, orphans are not
+
+
+  </Box>
+
+  <Box question="How does consistent set avoid domino effect?">
+    - Lack of orphans
+  </Box>
+
+</Box>
+
+### Algorithms
+
+#### Simple Checkpoint Algorithm:
+
+<Box question="How does it work?">
+  - Everytime you send a message, take a checkpoint
+  - expensive
+</Box>
+
+#### Synchronous Checkpoint:
+
+<Box question="How does it work?">
+  - Processes coordinate their actions in taking local checkpoints
+    - Not random, they agree on when to take the checkpoints
+  - Assumption:
+    - FIFO channels
+
+</Box>
+
+<Box question="How many pahses?">
+  <Box question="Phase 1">
+    - $P_i$ takes tentative checkpoint, asks everyone to do it
+  </Box>
+  <Box question="Phase 2">
+    - $P_i$ informs others of decisions
+  </Box>
+</Box>
+
+#### Asynchronous 
+<Box question="How does it work?">
+  - No coordination
+  - Figure it out as you go
+</Box>
+
+
+Questions:
+- When to use async vs sync?
