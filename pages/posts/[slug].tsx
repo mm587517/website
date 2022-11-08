@@ -24,6 +24,8 @@ import { Children, cloneElement } from "react";
 import { ObscureBlock } from "../../components/ObscureBlock";
 import { ObscureSection } from "../../components/ObscureSection";
 import { Carousel } from "../../components/Carousel";
+import { Canvas } from "../../components/Canvas";
+import { FunctionPlot } from "../../components/FunctionPlot";
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -87,6 +89,8 @@ const components = {
   Box: ObscureBlock as any,
   Section: ObscureSection as any,
   Carousel: Carousel as any,
+  Canvas: Canvas as any,
+  FunctionPlot: FunctionPlot as any,
 };
 
 const PostPage: NextPage<PageProps> = ({ post }) => {

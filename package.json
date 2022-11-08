@@ -18,6 +18,7 @@
     "@mdx-js/runtime": "^1.6.22",
     "@next/mdx": "^12.3.1",
     "framer-motion": "^7.3.6",
+    "function-plot": "^1.23.1",
     "gray-matter": "^4.0.3",
     "next": "12.3.1",
     "next-mdx-remote": "^4.1.0",
