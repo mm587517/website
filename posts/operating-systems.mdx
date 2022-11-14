@@ -1628,3 +1628,68 @@ A common instance of Livelock is that when two persons meet face to face in a co
 
 Questions:
 - When to use async vs sync?
+
+# Fault Tolerance
+
+<Box question="Why are the categories of of faul-tolerant systems?">
+  <Box question="Mask Failure">
+    - it continues to perform function even if faulure occurred
+  </Box>
+  <Box question="Well defined failure">
+    - function may continue to perform
+    - Example: txs in won't change DB until tx is committed
+  </Box>
+</Box>
+
+<Box question="Techniques to design fault tolerant DS">
+  - Voting protocols: masking of faulure
+  - Commit protocols: well defined behabior in case of failure
+  - Agreement Protocols: reaching agreement in presence of faulty information
+</Box>
+
+## Voting Protocol
+
+<Box question="What levels of redundancy?">
+  - Information redundancy: multiple copies in case one get corrupted
+  - Physical/Spatial redundancy: extra equipment 
+  - Time redundancy: same action performed several times
+
+  ![Voting mechanisms redundancy](https://www.researchgate.net/publication/289067925/figure/fig1/AS:353261719703552@1461235565510/Three-architectures-single-line-with-no-redundancy-1-hardware-redundancy-2-and.png)
+</Box>
+
+<Box question="Voting vs Majority?">
+  - voting allows differentiated read/write quoroms
+</Box>
+
+### Gifford's Algorithm
+ Solve the readers/writers problem in an unreliable DS
+ 
+ Assumptions:
+  - Data is replicated accross sites
+  - Each replica has a version number
+  - each site has one or more votes(depending on computing power?)
+  - local Lock managers implement multiple readers/writer policy
+
+Reading & Writing:
+  - needs a certain number of votes
+  - requesting process collects votes
+  - there is a timeout to avoid waiting forever
+
+  Algorithm:
+  - Site $S_i$ obtains local lock manager & sends VoteRequest to all other sites
+  - Site $S_j$ checks with local manager. Then sends version number $VN_j$ & number of votes $V_j$ to $S_i$
+  - $S_i$ counts votes and checks that quorum is reached
+  - If quorum is reached:
+    - if local copy is up to date, proceed to perform action
+    - if local copy is not up to date, update, then perform action
+  - If quorom is not reached, abort
+  - After write is completed:
+    - $S_i$ updates $VN_i$
+    - $S_i$ sends $VN_i$ to all sites that voted
+  
+
+<Box question="How to determine voting power?">
+  Let $v$ be the total number of votes, $r$ and $w$ and read quorum and write quorom respectevely: $r+w>v$, $w > \frac{v}{2}$
+
+  
+</Box>
