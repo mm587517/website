@@ -1,0 +1,89 @@
+---
+author: Marcelo Morales
+title: DefiRanger Summary
+banner: https://d3i71xaburhd42.cloudfront.net/976feeb9012547a9f8cce018146478cb1c797b6d/7-Figure5-1.png
+type: Research
+---
+
+- Abstract
+- Introduction
+    - Security Issues reported:
+        - [front-running](link_generated_on_download) 
+        - [Pump-and-Dump](link_generated_on_download) 
+        - [ flash loan attack](link_generated_on_download) 
+    - [decentralized exchanges and lending apps are the two most popular type](link_generated_on_download) 
+    - [Each pool in the AMM maintains two or more types of cryptocurrencies and leverages a price mechanism to decide the exchange rate](link_generated_on_download) 
+    - [To determine how many cryptocurrencies that a user can borrow, the lending app needs to retrieve the current price of the collateral, e.g., from a pool in AMM.](link_generated_on_download) 
+    - [work aims to detect price manipulation attacks](link_generated_on_download) 
+        - [requires us to analyze transactions between multiple smart contracts and understand the high-level semantics of DeFi apps](link_generated_on_download) 
+    - Challenges
+        - [DeFi apps often consist of multiple smart contracts that interact with each other](link_generated_on_download)
+            - [How to analyze the complicated interactions between smart contracts is the first challenge](link_generated_on_download)
+        - [semantic gap between raw transactions that can be observed on Ethereum and high-level DeFi semantics that are defined in DeFi apps](link_generated_on_download) 
+            - [we cannot get the high-level DeFi semantic such as there exists an account that trades 861 . 95 USDC for 0 . 5 Ether in the USDC-Ether pool using the Uniswap V2 protocol.](link_generated_on_download) 
+    - Solutions
+
+        - [many internal transactions between smart contracts, not all of them are use- ful for our analysis](link_generated_on_download), prune the useless ones
+    - [propose a platform-independent way to recover DeFi semantics](link_generated_on_download) 
+        - [ollect raw Ethereum transactions and then construct the cash flow tree (CFT in short)](link_generated_on_download)
+        - [reflects the token transfer initialized by an external (or internal) transaction and the corresponding account](link_generated_on_download)
+        - [system recovers the high-level DeFi semantics based on the token transfer behavior in CFT](link_generated_on_download)
+        - [system can automatically recognize](link_generated_on_download) [liquidity mining](link_generated_on_download), [liquidity cancel](link_generated_on_download), and [trade ](link_generated_on_download) 
+    - Evaluation
+    - Attack Analysis
+    - Contributions
+        - [ropose two price manipulation attacks ](link_generated_on_download) and [propose a method to recover DeFi semantics to facilitate the detection](link_generated_on_download)
+        - [implement a prototype named D E F I R ANGER and apply it to perform a large-scale price manipulation attack detection](link_generated_on_download)
+        - [perform detailed analysis on confirmed security incidents](link_generated_on_download) 
+- Background
+    - Ethereum Accounts and Transactions
+    - [Ethereum Cryptocurrencies](link_generated_on_download)
+    - [Decentralized Finance (DeFi)](link_generated_on_download) 
+        - [Decentralized EXchange (DEX)](link_generated_on_download)
+        - [Lending](link_generated_on_download)
+        - [Flash Loan](link_generated_on_download) 
+        - [Portfolio Management](link_generated_on_download) 
+            - t[hey automatically find the apps that provide the highest Annual Percentage Yields (APY) and then invest clients’ deposits to these apps](link_generated_on_download) 
+- Price Manipulation Attacks
+    - Two types of attack
+        - [directly manipulates the token price in a liquidity pool of an AMM.](link_generated_on_download) 
+        - [ndirectly manipulates the token price of the vulnerable DeFi app, whose price mechanism depends on the real-time statu](link_generated_on_download)
+    - [Price Mechanism of the Uniswap Protocol](link_generated_on_download)
+        - [quidity pool of Uniswap makes up reserves of two cryptocurrencies](link_generated_on_download)
+        - [pricing mechanism/formula of Uniswap](link_generated_on_download) $F(x) = \frac{997x\times R_y}{997x+1000R_x}$
+            - [F ( x ) shows the amount of token Y that a user can trade with the token X in an amount of x](link_generated_on_download) 
+            - [R X and R Y are the balances of the token X and token Y in the liquidity pool,](link_generated_on_download)
+            - [exchange rate](link_generated_on_download) [depends on the pool’s reserve balances](link_generated_on_download) ‒ meaning [attackers who are capable of draining the pool can make a trade to inflate or reduce a token’s price](link_generated_on_download) 
+    - [Direct Price Manipulation Attack](link_generated_on_download) 
+        - [DeFi apps have interfaces to trade tokens in AMMs](link_generated_on_download) 
+        - [attacker can abuse these interfaces to trade tokens on behalf of the vulnerable DeFi app](link_generated_on_download) ‒ affecting the exchange rate
+        - [attacker can make another trad](link_generated_on_download)e to gain profits ‒ [Since the token price is directly manipulated by trading a token pair in an AMM,](link_generated_on_download) 
+        - [Since the token price is directly manipulated by trading a token pair in an AMM,](link_generated_on_download) 
+        - [https://remnote-user-data.s3.amazonaws.com/2lZH0vrEXhc-QohCVmFv-uneN58iESV4VC_gKDWS3Fzhi0NfM5RVZRRu219mB8IWd-TTRrsKX-12IaP6pUgTZuS0XBPw69WyT1dHsCz9VobJs9k4qLHs3EzkXsyTlz80.png](link_generated_on_download) 
+        - Example:
+            - [pool has the same initial reserves ( 1 , 000 ) of a token pair X and Y](link_generated_on_download) 
+            - [user can get 9 . 9 Y with 10 X](link_generated_on_download) according to [formula](link_generated_on_download) 
+            - Attack:
+                1. [attacker uses 900 X](link_generated_on_download) ‒ occupies large portion of the pool, breaking the balance of the token pair ‒ lifting the value of Y
+                2. [attacke](link_generated_on_download)r  then sells 10X, but app only gets 2.5Y because [previous step reduces the price of the token X](link_generated_on_download)
+                3. [attacker sells 473 Y and gets 905 X with a reverse exchange](link_generated_on_download)
+                    1. [because the token Y ’s price has been raised in the second ste](link_generated_on_download)p 
+    - [Indirect Price Manipulation Attack](link_generated_on_download)
+        - [Some DeFi apps need the token price for business purposes](link_generated_on_download)
+            - in order to find the real price of collateral to avoid a borrower getting more worth than the collateral
+        - [https://remnote-user-data.s3.amazonaws.com/IRlbcP0KLmw_aZinouYBmiuQgsrJv6TxCFUytniYYCU7ftu7p1Nbr2uNYBdCSrRELB2iK870imIkr5b3NVHuu5Em8ru0Stmq0M3p5GdG91CCgIjRIpfjNDKLTE2rYw37.png](link_generated_on_download) 
+            - l[ending app uses](link_generated_on_download) AMM to determine value of collateral
+            - intial state, 1:1 x:y ratio
+            - normal scenario, deposit 1.5X ‒ and borrow 1Y
+            - Attack:
+                1. [attacker trades a tremendous amount of token Y for token X](link_generated_on_download) 
+                2. [attacker simply borrows the token Y using the token X as the collateral](link_generated_on_download), [can borrow 2 Y rather than 1 Y with the same amount of the collateral ( 1 . 5 X )](link_generated_on_download) 
+                3. [attacker only needs to redeem the cost of price manipulation by making a reverse exchange in the AMM pool.](link_generated_on_download) 
+            - 
+- Challenges and Solutions
+- Methodology
+- Evaluation
+- Attack Analysis
+- Discussion
+- Related Work
+- Conclusion
