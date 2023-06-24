@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
-  Button,
   Collapse,
-  Fade,
   Heading,
-  useColorModeValue,
-  useDisclosure,
-  Text,
   Flex,
   IconButton,
   Divider,
 } from '@chakra-ui/react';
-import { ArrowDownIcon, ArrowUpIcon, SearchIcon } from '@chakra-ui/icons';
+import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons';
 
 export const ObscureSection: React.FC<any> = ({ children, section }) => {
-  const { isOpen, onToggle } = useDisclosure();
-
   const [show, setShow] = React.useState(false);
 
   const handleToggle = () => setShow(!show);
