@@ -27,13 +27,14 @@ const Posts: NextPage<PageProps> = ({ posts }) => {
             <Flex flexDir='row' p='8' gap='4' flexWrap='wrap'>
               {posts
                 .filter((post) => post.type === type)
-                .map((post) => {
+                .map((post, index) => {
                   return (
                     <PostCard
                       slug={post.slug}
                       banner={post.banner}
                       title={post.title}
                       author={post.author}
+                      key={index}
                     />
                   );
                 })}
