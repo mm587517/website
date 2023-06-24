@@ -13,8 +13,6 @@ import { getAllPosts, Post } from '../utils/posts';
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const types = ['Classes', 'Resources', 'Fun'];
-
 const Posts: NextPage<PageProps> = ({ posts }) => {
   const cardBg = useColorModeValue('gray.200', 'gray.700');
   const imgBg = useColorModeValue('gray.50', 'gray.500');
