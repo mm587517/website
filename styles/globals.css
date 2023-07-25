@@ -25,3 +25,22 @@ a {
     color: white;
   }
 }
+@keyframes gradientChange {
+  0% {
+    background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 35%, rgba(208,222,33,1) 100%);
+  }
+  50% {
+    background: linear-gradient(90deg, rgba(208,222,33,1) 0%, rgba(255,0,0,1) 35%, rgba(255,154,0,1) 100%);
+  }
+  100% {
+    background: linear-gradient(90deg, rgba(255,154,0,1) 0%, rgba(208,222,33,1) 35%, rgba(255,0,0,1) 100%);
+  }
+}
+
+.boxGradient {
+  animation: gradientChange 5s ease infinite;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: black;
+  position: relative;
+}

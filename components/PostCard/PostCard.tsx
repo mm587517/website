@@ -25,7 +25,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           transform: 'scale(1.025)',
         }}
       >
-        <Img src={banner} w='360px' h='200px' objectFit='fill' bg={imgBg} />
+        <Img src={banner} w='360px' h='200px' objectFit='cover' bg={imgBg} />
         <Box p='2'>
           <Heading as='h3' size='md'>
             {title}
