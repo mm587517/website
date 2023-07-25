@@ -7,8 +7,6 @@ export const Card: React.FC<CardProps> = ({
   title,
   organization,
 }) => {
-  const direction = useBreakpointValue({ base: 'column', sm: 'row' }) || 'row';
-
   return (
     <Flex
       direction={{ base: 'column', sm: 'row' }}
@@ -16,13 +14,13 @@ export const Card: React.FC<CardProps> = ({
       minW={16}
       align='center'
     >
-      <Img src={image} borderRadius='full' h={28} w={28} m={'4'} />
+      <Img src={image} borderRadius='full' h={32} w={32} m={'4'} />
       <Flex flexDirection='column' align='center' m={2}>
-        <Text fontSize='lg' fontWeight={'bold'}>
+        <Text fontSize='xl' fontWeight={'bold'}>
           {name}
         </Text>
-        <Text fontSize='sm'>{title}</Text>
-        <Text fontSize='sm'>{organization}</Text>
+        <Text fontSize='md'>{title}</Text>
+        <Text fontSize='md'>{organization}</Text>
       </Flex>
     </Flex>
   );
