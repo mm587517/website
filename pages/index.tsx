@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Link, Text, useMediaQuery } from '@chakra-ui/react';
 import { Card } from '../components/Card/Card';
 import { PageLayout } from '../components/PageLayout';
 
 const Home = () => {
   const [showReal, setShowReal] = useState(true);
+  const [isSmallerScreen] = useMediaQuery('(max-width: 768px)');
 
   const myImage =
     'https://media.licdn.com/dms/image/C4D03AQG44sxS35Tj-A/profile-displayphoto-shrink_800_800/0/1600367396787?e=2147483647&v=beta&t=P1fmf7DnE7rtSz0wVaU9ckzIJDeuK1d8R7678BvLsMY';
@@ -70,6 +71,32 @@ const Home = () => {
           </Box>
         </Box>
       </Flex>
+
+      <Box ml={isSmallerScreen ? 16 : 64} mr={isSmallerScreen ? 16 : 64}>
+        <Text fontSize={18} mt={8}>
+          Hello there! I'm Marcelo, currently in my second year of pursuing a
+          PhD at <i>The</i> Ohio State University. In 2022, I earned my
+          bachelor's degree from Ohio University, under the insightful guidance
+          of{' '}
+          <Link
+            fontWeight={'bold'}
+            href='https://www.ohio.edu/engineering/about/people/chenji'
+            _hover={{ textDecoration: 'none', color: 'teal.300' }}
+          >
+            Dr. Harsha Chenji
+          </Link>
+          .
+        </Text>
+
+        <br />
+        <Text fontSize={18}>
+          Welcome to my notes! I plan to gather everything that represents my
+          career journey. This space is designed to be a central hub for a range
+          of content – from class notes to research findings and just about any
+          interesting tidbits. Don't miss the publications tab, where I'll be
+          sharing my academic adventures as they unfold!
+        </Text>
+      </Box>
     </PageLayout>
   );
 };

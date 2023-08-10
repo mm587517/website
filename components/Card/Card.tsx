@@ -18,10 +18,10 @@ export const Card: React.FC<CardProps> = ({
     >
       <Img src={image} borderRadius='full' h={28} w={28} m={'4'} />
       <Flex flexDirection='column' align='center' m={2}>
-        <Text fontSize='lg' fontWeight={'bold'}>
+        <Text fontSize={24} fontWeight={'bold'}>
           {name}
         </Text>
-        <Text fontSize='sm'>{title}</Text>
+        <Text fontSize='18'>{title}</Text>
         <Text fontSize='sm'>{organization}</Text>
       </Flex>
     </Flex>
