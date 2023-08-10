@@ -9,7 +9,7 @@ export const PageLayout: React.FC<React.PropsWithChildren<{}>> = ({
     <Box>
       <Header />
       <Center mt={4}>
-        <Box>{children}</Box>
+        <Box m={8}>{children}</Box>
       </Center>
     </Box>
   );

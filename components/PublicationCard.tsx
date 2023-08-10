@@ -36,7 +36,9 @@ const PublicationCard: React.FC<PublicationProps> = ({
 
   const me: string = 'Marcelo Morales';
 
-  const maxCardWidth = ['100%', '80%', '800px'];
+  const maxCardWidth = ['100%', '80%', '750px'];
+  const abstractWidth = '80%'; // Define the width of the abstract content
+
   const { colorMode } = useColorMode();
 
   return (
