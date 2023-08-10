@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Text, Link, Flex, Button, Collapse } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Link,
+  Flex,
+  Button,
+  Collapse,
+  useColorMode,
+} from '@chakra-ui/react';
 
 interface PublicationProps {
   title: string;
@@ -29,6 +37,7 @@ const PublicationCard: React.FC<PublicationProps> = ({
   const me: string = 'Marcelo Morales';
 
   const maxCardWidth = ['100%', '80%', '800px'];
+  const { colorMode } = useColorMode();
 
   return (
     <Box
@@ -55,7 +64,7 @@ const PublicationCard: React.FC<PublicationProps> = ({
           as='h2'
           fontSize='xl'
           fontWeight='semibold'
-          color='white'
+          color={colorMode === 'dark' ? 'white' : 'black'}
           transition='color 0.3s'
           _hover={{ color: 'teal.200' }}
         >
@@ -64,17 +73,20 @@ const PublicationCard: React.FC<PublicationProps> = ({
       </Link>
       <Text fontSize='md' color='gray.500'>
         {authors.map((author, index) => (
-          <Text
-            key={index}
-            as={author === me ? 'strong' : 'span'}
-            fontWeight={author === me ? 'bold' : 'normal'}
-            textDecoration={author === me ? 'underline' : 'none'}
-          >
-            {author}
-            {index < authors.length - 1 ? ', ' : ''}
-          </Text>
+          <React.Fragment key={index}>
+            {index > 0 && ', '}
+            <span
+              style={{
+                fontWeight: author === me ? 'bold' : 'normal',
+                textDecoration: author === me ? 'underline' : 'none',
+              }}
+            >
+              {author}
+            </span>
+          </React.Fragment>
         ))}
       </Text>
+
       <Text fontSize='md' fontWeight='normal' color='gray.500'>
         {conference}
       </Text>
