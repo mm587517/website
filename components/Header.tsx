@@ -42,6 +42,9 @@ export const Header = () => {
       <HStack justifySelf='flex-end'>
         <Link href='/posts'>Posts</Link>
       </HStack>
+      <HStack justifySelf='flex-end'>
+        <Link href='/publications'>Publications</Link>
+      </HStack>
     </Flex>
   );
 };

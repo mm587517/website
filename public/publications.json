@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Your Exploit is Mine: Instantly Synthesizing Counterattack Smart Contract",
+    "authors": [
+      "Zhuo Zhang",
+      "Zhiqiang Lin",
+      "Marcelo Morales",
+      "Xiangyu Zhang",
+      "Kaiyuan Zhang"
+    ],
+    "conference": "Proceedings of the 32nd USENIX Security Symposium (Security 2023)",
+    "link": "https://www.usenix.org/system/files/usenixsecurity23-zhang-zhuo-exploit.pdf",
+    "abstract": "Smart contracts are susceptible to exploitation due to theirunique nature. Despite efforts to identify vulnerabilities usingfuzzing, symbolic execution, formal verification, and manualauditing, exploitable vulnerabilities still exist and have led tobillions of dollars in monetary losses. To address this issue,it is critical that runtime defenses are in place to minimizeexploitation risk. In this paper, we present STING, a novel run-time defense mechanism against smart contract exploits. Thekey idea is to instantly synthesize counterattack smart con-tracts from attacking transactions and leverage the power ofMaximal Extractable Value (MEV) to front run attackers. Ourevaluation with 62 real-world recent exploits demonstratesits effectiveness, successfully countering 54 of the exploits(i.e., intercepting all the funds stolen by the attacker). In com-parison, a general front-runner defense could only handle 12exploits. Our results provide a clear proof-of-concept thatSTING is a viable defense mechanism against smart contractexploits and has the potential to significantly reduce the riskof exploitation in the smart contract ecosystem.",
+    "location": "Anaheim, CA, August, 2023"
+  }
+]
