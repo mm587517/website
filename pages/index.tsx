@@ -74,10 +74,10 @@ const Home = () => {
 
       <Box ml={isSmallerScreen ? 16 : 64} mr={isSmallerScreen ? 16 : 64}>
         <Text fontSize={18} mt={8}>
-          Hello there! I'm Marcelo, currently in my second year of pursuing a
-          PhD at <i>The</i> Ohio State University. In 2022, I earned my
-          bachelor's degree from Ohio University, under the insightful guidance
-          of{' '}
+          Hello there! I&apos;m Marcelo, currently in my second year of pursuing
+          a PhD at <i>The</i> Ohio State University. In 2022, I earned my
+          bachelor&apos;s degree from Ohio University, under the insightful
+          guidance of{' '}
           <Link
             fontWeight={'bold'}
             href='https://www.ohio.edu/engineering/about/people/chenji'
@@ -93,8 +93,8 @@ const Home = () => {
           Welcome to my notes! I plan to gather everything that represents my
           career journey. This space is designed to be a central hub for a range
           of content – from class notes to research findings and just about any
-          interesting tidbits. Don't miss the publications tab, where I'll be
-          sharing my academic adventures as they unfold!
+          interesting tidbits. Don&apos;t miss the publications tab, where
+          I&apos;ll be sharing my academic adventures as they unfold!
         </Text>
       </Box>
     </PageLayout>
