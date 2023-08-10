@@ -10,7 +10,7 @@ const Publications = () => {
         Publications
       </Heading>
       {publicationsData.map((publication, index) => (
-        <Box m={4}>
+        <Box m={4} key={index}>
           <PublicationCard key={index} {...publication} />
         </Box>
       ))}
