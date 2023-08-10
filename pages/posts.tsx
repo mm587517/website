@@ -1,13 +1,5 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Img,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import Link from 'next/link';
 import { PageLayout } from '../components/PageLayout';
 import { getAllPosts, Post } from '../utils/posts';
 import { PostCard } from '../components/PostCard/PostCard';
@@ -15,7 +7,7 @@ import { PostCard } from '../components/PostCard/PostCard';
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Posts: NextPage<PageProps> = ({ posts }) => {
-  const types = ['Classes', 'Resources', 'Fun'];
+  const types = Array.from(new Set(posts.map((post) => post.type))).sort();
   return (
     <PageLayout>
       {types.map((type) => {

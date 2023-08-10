@@ -12,22 +12,30 @@ export const PostCard: React.FC<PostCardProps> = ({
   const imgBg = useColorModeValue('gray.50', 'gray.500');
 
   return (
-    <Link href={`/posts/${slug}`}>
+    <Link href={`/posts/${slug}`} passHref>
       <Box
-        w='360px'
+        width='600px'
+        maxW='360px'
         background={cardBg}
         rounded='md'
         overflow='hidden'
         cursor='pointer'
         shadow='lg'
-        transition='all 200ms ease-in-out'
+        transition='transform 200ms ease-in-out'
         _hover={{
           transform: 'scale(1.025)',
         }}
       >
-        <Img src={banner} w='360px' h='200px' objectFit='cover' bg={imgBg} />
+        <Img
+          src={banner}
+          alt={title}
+          w='600px'
+          h='200px'
+          objectFit='cover'
+          bg={imgBg}
+        />
         <Box p='2'>
-          <Heading as='h3' size='md'>
+          <Heading as='h3' size='md' marginBottom='1'>
             {title}
           </Heading>
           <Text>{author}</Text>
