@@ -18,7 +18,7 @@ import Link from 'next/link';
 export const Header = () => {
   const { toggleColorMode } = useColorMode();
   const icon = useColorModeValue(SunIcon, MoonIcon);
-  const background = useColorModeValue('gray.400', 'gray.600');
+  const background = useColorModeValue('teal.400', 'teal.400');
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -32,7 +32,13 @@ export const Header = () => {
       columnGap='4'
     >
       <Link href='/'>
-        <Heading as='h3' cursor='pointer'>
+        <Heading
+          as='h3'
+          cursor='pointer'
+          textColor={'white'}
+          _hover={{ color: 'gray.200' }}
+          transition='color 0.3s'
+        >
           Marcelo&apos;s Notes
         </Heading>
       </Link>
@@ -44,14 +50,23 @@ export const Header = () => {
           size='xs'
           bg='none'
           cursor='pointer'
+          color={'white'}
+          _hover={{ color: 'gray.200' }}
         />
       </Box>
       {isMobile ? (
         <Menu>
           <MenuButton
             as={IconButton}
-            icon={<HamburgerIcon boxSize={6} />}
+            icon={
+              <HamburgerIcon
+                boxSize={6}
+                color={'white'}
+                _hover={{ color: 'gray.200', bg: 'none' }}
+              />
+            }
             bg='none'
+            _hover={{ bg: 'none' }}
             cursor='pointer'
           />
           <MenuList>

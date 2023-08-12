@@ -68,7 +68,7 @@ const PublicationCard: React.FC<PublicationProps> = ({
           fontWeight='semibold'
           color={colorMode === 'dark' ? 'white' : 'black'}
           transition='color 0.3s'
-          _hover={{ color: 'teal.200' }}
+          _hover={{ color: 'teal.300' }}
         >
           {title}
         </Box>

@@ -61,6 +61,7 @@ const Home = () => {
             right={0}
             bottom={0}
             zIndex={!showReal ? 10 : 0}
+            fontFamily='cursive'
           >
             <Card
               name='Marcelo Morales'
