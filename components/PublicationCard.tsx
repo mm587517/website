@@ -36,8 +36,8 @@ const PublicationCard: React.FC<PublicationProps> = ({
 
   const me: string = 'Marcelo Morales';
 
-  const maxCardWidth = ['100%', '80%', '750px'];
-  const abstractWidth = '80%'; // Define the width of the abstract content
+  const maxCardWidth = '800px';
+  const abstractWidth = '650px'; // Define the width of the abstract content
 
   const { colorMode } = useColorMode();
 
@@ -48,13 +48,14 @@ const PublicationCard: React.FC<PublicationProps> = ({
       borderRadius='md'
       boxShadow='md'
       width='100%'
-      maxWidth={maxCardWidth}
+      maxW={maxCardWidth}
       margin='0 auto'
       transition='transform 0.3s, box-shadow 0.3s'
       _hover={{
         transform: 'scale(1.02)',
         boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.1)',
       }}
+      overflow='hidden' // Handle overflow
     >
       <Link
         href={link}
@@ -123,9 +124,19 @@ const PublicationCard: React.FC<PublicationProps> = ({
         Abstract
       </Button>
       <Collapse in={showAbstract}>
-        <Text m={2} fontSize='sm' fontWeight='normal' as='p'>
-          {abstract}
-        </Text>
+        <Box maxW={abstractWidth}>
+          <Text
+            m={2}
+            fontSize='sm'
+            fontWeight='normal'
+            as='p'
+            whiteSpace='normal' // Make sure the text wraps
+            overflow='hidden' // Make sure it doesn't overflow
+            textOverflow='ellipsis' // Ellipsis if it does
+          >
+            {abstract}
+          </Text>
+        </Box>
       </Collapse>
     </Box>
   );
