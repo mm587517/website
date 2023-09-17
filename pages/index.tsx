@@ -76,9 +76,21 @@ const Home = () => {
       <Box ml={isSmallerScreen ? 16 : 64} mr={isSmallerScreen ? 16 : 64}>
         <Text fontSize={18} mt={8}>
           Hello there! I&apos;m Marcelo, currently in my second year of pursuing
-          a PhD at <i>The</i> Ohio State University. In 2022, I earned my
-          bachelor&apos;s degree from Ohio University, under the insightful
-          guidance of{' '}
+          a PhD at <i>The</i> Ohio State University. I am a member of the W3CIL
+          lab under the guidance of{' '}
+          <Link
+            fontWeight={'bold'}
+            href='https://carteryagemann.com/pages/about.html'
+            _hover={{ textDecoration: 'none', color: 'teal.300' }}
+          >
+            Dr. Carter Yagemann
+          </Link>
+          .
+          <br />
+        </Text>
+        <Text fontSize={18} mt={8}>
+          In 2022, I earned my bachelor&apos;s degree from Ohio University,
+          under the insightful guidance of{' '}
           <Link
             fontWeight={'bold'}
             href='https://www.ohio.edu/engineering/about/people/chenji'
